@@ -4,12 +4,10 @@ import { observer } from "mobx-react-lite";
 import { IntlProvider } from 'react-intl';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import SettingsState from './store/SettingsState';
-import Header from './components/Header';
+import Header from './components/layout/Header';
 import AppRouter from './components/AppRouter';
 import enMessages from './localization/en.json';
 import ruMessages from './localization/ru.json';
-import { Typography } from '@mui/material';
-import { FormattedMessage } from 'react-intl';
 
 const App = observer(() => {
   const theme = createTheme({

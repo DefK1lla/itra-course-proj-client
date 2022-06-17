@@ -1,5 +1,10 @@
 {
     "hello.world": "hello world!",
+    "signin": "Sign In",
+    "signup": "Sign Up",
+    "form.username": "Username",
+    "form.email": "Email",
+    "form.password": "Password",
     "header.search": "Search...",
     "nav.signin": "Sign In",
     "nav.signup": "Sign Up",

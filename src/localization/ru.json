@@ -1,5 +1,10 @@
 {
     "hello.world": "привет мир!",
+    "signin": "Войти",
+    "signup": "Регистрация",
+    "form.username": "Имя",
+    "form.email": "Email",
+    "form.password": "Пароль",
     "header.search": "Поиск...",
     "nav.signin": "Войти",
     "nav.signup": "Регистрация",
