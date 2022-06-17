@@ -1,0 +1,11 @@
+{
+    "hello.world": "hello world",
+    "header.search": "Search...",
+    "nav.signin": "Sign In",
+    "nav.signup": "Sign Up",
+    "settings.title": "Settings",
+    "settings.lang": "Language",
+    "settings.mode": "Mode",
+    "settings.mode.light": "Light",
+    "settings.mode.dark": "Dark"
+}

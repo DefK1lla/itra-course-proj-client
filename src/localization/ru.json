@@ -1,0 +1,11 @@
+{
+    "hello.world": "привет мир",
+    "header.search": "Поиск...",
+    "nav.signin": "Войти",
+    "nav.signup": "Регистрация",
+    "settings.title": "Настройки",
+    "settings.lang": "Язык",
+    "settings.mode": "Режим",
+    "settings.mode.light": "Светлый",
+    "settings.mode.dark": "Тёмный"
+}
