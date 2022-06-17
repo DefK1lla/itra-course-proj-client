@@ -3,18 +3,21 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { Box, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import SettingsState from '../store/SettingsState';
 
 function NavBar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
 
     const pages = [{
+        title: <FormattedMessage id='nav.home' />,
+        path: '/'
+    }, {
         title: <FormattedMessage id='nav.signin' />,
         path: '/signin'
     }, {
         title: <FormattedMessage id='nav.signup' />,
         path: '/signup'
-    }
-    ];
+    }];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -64,7 +67,7 @@ function NavBar() {
                             <Link
                                 style={{
                                     textDecoration: 'none',
-                                    color: 'black'
+                                    color: SettingsState.mode === 'dark' ? '#fff' : '#000'
                                 }}
                                 to={page.path}
                             >
@@ -94,7 +97,11 @@ function NavBar() {
                     >
                         <Button
                             onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            sx={{
+                                my: 2,
+                                color: 'white',
+                                display: 'block'
+                            }}
                         >
                             {page.title}
                         </Button>
