@@ -19,7 +19,7 @@ function Login() {
                     width: '100%'
                 }}>
                 <Typography
-                    variant='h2'
+                    variant='h3'
                     component='h2'
                     textAlign='center'
                 >
