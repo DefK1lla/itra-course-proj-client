@@ -20,7 +20,7 @@ const Registration = () => {
             email: '',
             password: ''
         },
-        mode: 'onBlur'
+        mode: 'all'
     });
 
     const onSubmit = (data) => {

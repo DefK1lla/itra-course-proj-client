@@ -21,7 +21,7 @@ function Login() {
             email: '',
             password: ''
         },
-        mode: 'onBlur'
+        mode: 'all'
     });
 
     const onSubmit = (data) => {
