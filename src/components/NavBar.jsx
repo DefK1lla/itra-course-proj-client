@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+
 import { Box, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+
 import SettingsState from '../store/SettingsState';
+import UserState from '../store/UserState';
 
 function NavBar() {
-    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-    const pages = [{
+    const pages = UserState.isAuth ? [{
         title: <FormattedMessage id='nav.home' />,
         path: '/'
     }, {
-        title: <FormattedMessage id='nav.signin' />,
-        path: '/signin'
+        title: <FormattedMessage id='nav.profile' />,
+        path: '/me'
     }, {
-        title: <FormattedMessage id='nav.signup' />,
-        path: '/signup'
-    }];
+        title: <FormattedMessage id='nav.logout' />,
+        path: '/signin',
+        onClick: () => UserState.logout()
+    }]
+        : UserState.isAuth === false ? [{
+            title: <FormattedMessage id='nav.home' />,
+            path: '/'
+        }, {
+            title: <FormattedMessage id='nav.signin' />,
+            path: '/signin'
+        }, {
+            title: <FormattedMessage id='nav.signup' />,
+            path: '/signup'
+        }]
+            : [];
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -27,13 +42,12 @@ function NavBar() {
         setAnchorElNav(null);
     };
 
-
     return (
         <Box>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                     size="large"
-                    aria-label="account of current user"
+                    aria-label="Menu"
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     onClick={handleOpenNavMenu}
@@ -70,6 +84,7 @@ function NavBar() {
                                     color: SettingsState.mode === 'dark' ? '#fff' : '#000'
                                 }}
                                 to={page.path}
+                                onClick={page.onClick}
                             >
                                 {page.title}
                             </Link>
@@ -85,7 +100,8 @@ function NavBar() {
                         xs: 'none',
                         md: 'flex'
                     }
-                }}>
+                }}
+            >
 
                 {pages.map((page) => (
                     <Link
@@ -94,14 +110,15 @@ function NavBar() {
                         }}
                         key={page.path}
                         to={page.path}
+                        onClick={page.onClick}
                     >
                         <Button
-                            onClick={handleCloseNavMenu}
                             sx={{
                                 my: 2,
                                 color: 'white',
                                 display: 'block'
                             }}
+                            onClick={handleCloseNavMenu}
                         >
                             {page.title}
                         </Button>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import { Typography } from '@mui/material';
 
 const Feed = () => {

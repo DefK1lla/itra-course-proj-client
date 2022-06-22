@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
+
 import { Menu, MenuItem, Button, Fade, FormControl, InputLabel, Select } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 import SettingsState from '../store/SettingsState';
 
-function Settings() {
-    const [anchorEl, setAnchorEl] = useState(null);
+const Settings = () => {
+    const intl = useIntl();
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -33,9 +37,11 @@ function Settings() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
+                title={intl.formatMessage({ id: 'settings.title' })}
             >
                 <MoreVertIcon />
             </Button>
+
             <Menu
                 id="fade-menu"
                 MenuListProps={{
@@ -51,23 +57,30 @@ function Settings() {
                         <InputLabel id="demo-select-small">
                             <FormattedMessage id='settings.lang' />
                         </InputLabel>
-                        <Select
-                            labelId="demo-select-small"
-                            id="demo-select-small"
-                            value={SettingsState.locale}
-                            label="Language"
-                            onChange={handleLanguageChange}
-                        >
-                            <MenuItem value='ru'>RU</MenuItem>
-                            <MenuItem value='en'>EN</MenuItem>
-                        </Select>
+
+                        <FormattedMessage id='settings.lang'>
+                            {(msg) => (
+                                <Select
+                                    labelId="demo-select-small"
+                                    id="demo-select-small"
+                                    value={SettingsState.locale}
+                                    label={msg[0]}
+                                    onChange={handleLanguageChange}
+                                >
+                                    <MenuItem value='ru'>RU</MenuItem>
+                                    <MenuItem value='en'>EN</MenuItem>
+                                </Select>
+                            )}
+                        </FormattedMessage>
                     </FormControl>
                 </MenuItem>
+
                 <MenuItem onClick={handleClose}>
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                         <InputLabel id="demo-select-small">
                             <FormattedMessage id='settings.mode' />
                         </InputLabel>
+
                         <Select
                             labelId="demo-select-small"
                             id="demo-select-small"
@@ -78,6 +91,7 @@ function Settings() {
                             <MenuItem value='light'>
                                 <FormattedMessage id='settings.mode.light' />
                             </MenuItem>
+
                             <MenuItem value='dark'>
                                 <FormattedMessage id='settings.mode.dark' />
                             </MenuItem>
@@ -87,6 +101,6 @@ function Settings() {
             </Menu>
         </div>
     );
-}
+};
 
 export default Settings;

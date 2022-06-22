@@ -27,8 +27,12 @@ const Token = {
         return localStorage.getItem(TOKEN);
     },
 
+    remove() {
+        localStorage.removeItem(TOKEN);
+    },
+
     set(token) {
-        localStorage.setItem(TOKEN, token);
+        localStorage.setItem(TOKEN, 'Bearer ' + token);
     }
 };
 

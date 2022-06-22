@@ -1,10 +1,13 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
+
 import { InputBase, IconButton, Box } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
 function SearchForm() {
+    const intl = useIntl();
+
     const Search = styled('div')(({ theme }) => ({
         display: 'flex',
         borderRadius: theme.shape.borderRadius,
@@ -38,14 +41,10 @@ function SearchForm() {
             sx={{ mr: 'auto' }}>
 
             <Search>
-                <FormattedMessage id='header.search'>
-                    {(msg) => (
-                        <StyledInputBase
-                            placeholder={msg[0]}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    )}
-                </FormattedMessage>
+                <StyledInputBase
+                    placeholder={intl.formatMessage({ id: 'header.search' })}
+                    inputProps={{ 'aria-label': 'search' }}
+                />
 
                 <IconButton
                     color='inherit'
