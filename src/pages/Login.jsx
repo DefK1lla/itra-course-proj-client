@@ -3,19 +3,27 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
 
-import { Snackbar, Alert, AlertTitle, Card, CardContent, CardActions, TextField, Button, Container, Typography } from '@mui/material';
+import { Card, CardContent, CardActions, TextField, Button, Container, Typography } from '@mui/material';
 
 import SettingsState from '../store/SettingsState';
 import UserState from '../store/UserState';
-import { login } from '../http/userAPI';
+import { login } from '../http/authAPI';
+import ErrorAlert from '../components/ErrorAlert';
 
 function Login() {
-    const [open, setOpen] = React.useState(false);
+    const [alert, setAlert] = React.useState(false);
     const [errorText, setErrorText] = React.useState('');
 
     const intl = useIntl();
 
-    const { register, setError, handleSubmit, formState: { errors } } = useForm({
+    const {
+        register,
+        setError,
+        handleSubmit,
+        formState: {
+            errors
+        }
+    } = useForm({
         defaultValues: {
             username: '',
             email: '',
@@ -39,10 +47,10 @@ function Login() {
                         message: intl.formatMessage({ id: 'login-page.error' })
                     });
                 } else if (e.response.status === 403) {
-                    setOpen(true);
+                    setAlert(true);
                     setErrorText('login-page.user-blocked');
                 } else {
-                    setOpen(true);
+                    setAlert(true);
                     setErrorText('form.something-wrong');
                 }
             }
@@ -57,23 +65,11 @@ function Login() {
                 pt: 10
             }}
         >
-            <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                open={open}
-                autoHideDuration={6000}
-                onClose={() => setOpen(false)}>
-                <Alert
-                    sx={{ width: '100%' }}
-                    severity='error'
-                    variant='filled'
-                    onClose={() => setOpen(false)}
-                >
-                    <AlertTitle>
-                        <FormattedMessage id='error' />
-                    </AlertTitle>
-                    <FormattedMessage id={errorText} />
-                </Alert>
-            </Snackbar>
+            <ErrorAlert
+                open={alert}
+                setOpen={setAlert}
+                errorText={errorText}
+            />
 
             <Card
                 sx={{

@@ -3,10 +3,10 @@ import { makeAutoObservable } from 'mobx';
 import { Token } from '../utils/storage';
 
 class UserState {
-    constructor() {
-        this._userData = null;
-        this._isAuth = null;
+    _userData = null;
+    _isAuth = null;
 
+    constructor() {
         makeAutoObservable(this);
     }
 

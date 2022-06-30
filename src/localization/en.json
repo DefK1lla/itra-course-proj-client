@@ -17,6 +17,7 @@
     "form.password.min-length": "Minimum number of characters 5",
     "form.password.max-length": "Maximum number of characters 25",
     "header.search": "Search...",
+    "nav.admin-panel": "Admin panel",
     "nav.signin": "Sign In",
     "nav.signup": "Sign Up",
     "nav.home": "Home",

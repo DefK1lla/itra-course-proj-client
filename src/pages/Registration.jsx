@@ -3,18 +3,27 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
 
-import { Snackbar, Alert, AlertTitle, Card, CardContent, CardActions, TextField, Button, Container, Typography } from '@mui/material';
+import { Card, CardContent, CardActions, TextField, Button, Container, Typography } from '@mui/material';
 
 import SettingsState from '../store/SettingsState';
 import UserState from '../store/UserState';
-import { registration } from '../http/userAPI';
+import { registration } from '../http/authAPI';
+import ErrorAlert from '../components/ErrorAlert';
 
 const Registration = () => {
-    const [open, setOpen] = React.useState(false);
+    const [alert, setAlert] = React.useState(false);
+    const errorText = 'form.something-wrong';
 
     const intl = useIntl();
 
-    const { register, setError, handleSubmit, formState: { errors } } = useForm({
+    const {
+        register,
+        setError,
+        handleSubmit,
+        formState: {
+            errors
+        }
+    } = useForm({
         defaultValues: {
             username: '',
             email: '',
@@ -33,7 +42,7 @@ const Registration = () => {
                 }, {
                     shouldFocus: true
                 })
-                : setOpen(true)
+                : setAlert(true)
             );
     }
 
@@ -53,23 +62,11 @@ const Registration = () => {
                 component='form'
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    open={open}
-                    autoHideDuration={6000}
-                    onClose={() => setOpen(false)}>
-                    <Alert
-                        sx={{ width: '100%' }}
-                        severity='error'
-                        variant='filled'
-                        onClose={() => setOpen(false)}
-                    >
-                        <AlertTitle>
-                            <FormattedMessage id='error' />
-                        </AlertTitle>
-                        <FormattedMessage id='form.something-wrong' />
-                    </Alert>
-                </Snackbar>
+                <ErrorAlert
+                    open={alert}
+                    setOpen={setAlert}
+                    errorText={errorText}
+                />
 
                 <Typography
                     variant='h3'

@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { IntlProvider } from 'react-intl';
 
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { ruRU, enUS } from '@mui/material/locale';
 
 import SettingsState from './store/SettingsState';
 import UserState from './store/UserState';
@@ -11,17 +12,18 @@ import Header from './components/layout/Header';
 import AppRouter from './components/AppRouter';
 import Loading from './components/Loading';
 
-import { authCheck } from './http/userAPI';
+import { authCheck } from './http/authAPI';
 
 import enMessages from './localization/en.json';
 import ruMessages from './localization/ru.json';
 
 const App = observer(() => {
+  const muiLocale = SettingsState.locale === 'ru' ? ruRU : enUS;
   const theme = createTheme({
     palette: {
       mode: SettingsState.mode
     },
-  });
+  }, muiLocale);
 
   SettingsState.setTheme(theme);
 

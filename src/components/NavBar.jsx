@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { observer } from "mobx-react-lite";
 
 import { Box, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -8,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SettingsState from '../store/SettingsState';
 import UserState from '../store/UserState';
 
-function NavBar() {
+const NavBar = observer(() => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
 
     const pages = UserState.isAuth ? [{
@@ -33,6 +34,13 @@ function NavBar() {
             path: '/signup'
         }]
             : [];
+
+    if (UserState.userData?.role === 'ADMIN') {
+        pages.unshift({
+            title: <FormattedMessage id='nav.admin-panel' />,
+            path: '/admin'
+        });
+    }
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -127,6 +135,6 @@ function NavBar() {
             </Box>
         </Box>
     )
-}
+})
 
 export default NavBar;

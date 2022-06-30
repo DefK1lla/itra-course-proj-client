@@ -2,10 +2,12 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import WithAuth from '../hoc/WithAuth';
+import WithAdminRole from '../hoc/WithAdminRole';
 import WithoutAuth from '../hoc/WithoutAuth';
 import Feed from '../pages/Feed';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
+import Admin from '../pages/Admin';
 
 function AppRouter() {
     return (
@@ -20,6 +22,11 @@ function AppRouter() {
                 <WithoutAuth>
                     <Registration />
                 </WithoutAuth>
+            } />
+            <Route exact path='/admin' element={
+                <WithAdminRole>
+                    <Admin />
+                </WithAdminRole>
             } />
             <Route path='*' element={<Feed />} />
         </Routes>

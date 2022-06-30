@@ -17,6 +17,7 @@
     "form.password.min-length": "Минимальное количество символов 5",
     "form.password.max-length": "Максимальное количество символов 25",
     "header.search": "Поиск...",
+    "nav.admin-panel": "Админ панель",
     "nav.signin": "Войти",
     "nav.signup": "Регистрация",
     "nav.home": "Главная",
