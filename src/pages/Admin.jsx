@@ -1,174 +1,96 @@
 import React from 'react';
-
-import { Container, Paper, Checkbox, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, TableSortLabel, TablePagination } from '@mui/material';
+import { Container } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 
 import { getUsers } from '../http/userAPI';
 
 const Admin = () => {
+    const columns = [
+        {
+            field: '_id',
+            headerName: 'ID',
+            width: 250
+        },
+        {
+            field: 'username',
+            headerName: 'Username',
+            width: 150
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 230
+        },
+        {
+            field: 'role',
+            headerName: 'Role',
+            width: 100
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 160
+        },
+        {
+            field: 'timestamp',
+            headerName: 'Ragistration date',
+            width: 150,
+            renderCell: (params) => new Date(params.value).toLocaleDateString()
+        },
+    ];
+
     const [users, setUsers] = React.useState([]);
     const [usersCount, setUsersCount] = React.useState(0);
-    const [valueToOrderBy, setValueToOrderBy] = React.useState('username');
-    const [order, setOrder] = React.useState('asc');
+    const [sortModel, setSortModel] = React.useState({ 'username': 'desc' });
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [selected, setSelected] = React.useState([]);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [isLoading, setIsLoading] = React.useState(false);
 
-    const columns = ['ID', 'Username', 'Email', 'Role', 'Status', 'Regstration date'];
-    const cells = ['_id', 'username', 'email', 'role', 'status', 'timestamp'];
-
-    const isSelected = (id) => selected.indexOf(id) !== -1;
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = users.map((user) => user._id);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
+    const handlePageSizeChange = (value) => {
+        setRowsPerPage(value);
     };
 
-    const handleItemClick = (event, id) => {
-        const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
-
-        switch (selectedIndex) {
-            case -1:
-                newSelected = newSelected.concat(selected, id);
-                break;
-            case 0:
-                newSelected = newSelected.concat(selected.slice(1));
-                break;
-            case (selected.length - 1):
-                newSelected = newSelected.concat(selected.slice(0, -1));
-                break;
-            default:
-                newSelected = newSelected.concat(
-                    selected.slice(0, selectedIndex),
-                    selected.slice(selectedIndex + 1),
-                );
-        }
-
-        setSelected(newSelected);
-    };
-
-    const createSortHandler = (property) => {
-        if (property === 'Registration date') property = 'timestamp';
-
-        return function (event) {
-            const isAscending = (valueToOrderBy === property && order === 'asc');
-            setValueToOrderBy(property);
-            setOrder(isAscending ? 'desc' : 'asc');
-        }
-    };
-
-    const handleChangePage = (event, newPage) => {
+    const handlePageChange = (newPage) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value);
+    const handleSortModelChange = (model) => {
+        setSortModel(model[0]);
     };
 
     React.useEffect(() => {
-        getUsers(valueToOrderBy, order, page, rowsPerPage).then(data => {
+        setUsers([]);
+        setIsLoading(true);
+        getUsers(sortModel, page, rowsPerPage).then(data => {
             setUsers(data.users);
             setUsersCount(data.count);
+            setIsLoading(false);
         });
-    }, [valueToOrderBy, order, page, rowsPerPage]);
+    }, [sortModel, page, rowsPerPage]);
 
     return (
-        <Container>
-            <Paper sx={{
-                mt: 3
-            }}>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell padding="checkbox">
-                                    <Checkbox
-                                        color="primary"
-                                        indeterminate={selected.length > 0 && selected.length < users.length}
-                                        checked={users.length > 0 && selected.length === users.length}
-                                        onChange={handleSelectAllClick}
-                                        inputProps={{
-                                            'aria-label': 'select all users',
-                                        }}
-                                    />
-                                </TableCell>
-                                {columns.map(column => {
-                                    return (
-                                        <TableCell
-                                            key={column}
-                                        >
-                                            <TableSortLabel
-                                                active={valueToOrderBy === column.toLowerCase()}
-                                                direction={order}
-                                                onClick={createSortHandler(column.toLowerCase())}
-                                            >
-                                                {column}
-                                            </TableSortLabel>
-                                        </TableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {users.map((user, index) => {
-                                const isItemSelected = isSelected(user._id);
-                                const labelId = `users-table-checkbox-${index}`;
-
-                                return (
-                                    <TableRow
-                                        key={`row-${user._id}`}
-                                        hover
-                                        onClick={(event) => handleItemClick(event, user._id)}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        selected={isItemSelected}
-                                        id={labelId}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                key={index}
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
-
-                                        {cells.map(cell => {
-                                            return (
-                                                <TableCell key={user[cell]} align="left">
-                                                    {cell === 'timestamp'
-                                                        ? new Date(user[cell]).toLocaleDateString()
-                                                        : user[cell]}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })
-
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 15]}
-                    component="div"
-                    count={usersCount}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
+        <Container
+            sx={{
+                height: 650
+            }}
+        >
+            <DataGrid
+                getRowId={(row) => row._id}
+                rows={users}
+                columns={columns}
+                checkboxSelection
+                disableColumnFilter
+                pagination
+                paginationMode='server'
+                rowCount={usersCount}
+                rowsPerPageOptions={[10, 15]}
+                pageSize={rowsPerPage}
+                onPageSizeChange={handlePageSizeChange}
+                onPageChange={handlePageChange}
+                sortingMode="server"
+                onSortModelChange={handleSortModelChange}
+                loading={isLoading}
+            />
         </Container>
     );
 };

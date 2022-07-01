@@ -7,7 +7,7 @@ const WithoutAuth = observer(({ children }) => {
     const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
-    if (UserState.userData.role !== 'ADMIN') {
+    if (UserState.userData?.role !== 'ADMIN') {
         return goBack();
     }
 

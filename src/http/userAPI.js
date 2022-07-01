@@ -1,13 +1,14 @@
 import { $authHost } from "./index";
 
-export const getUsers = async (valueToOrderBy, order, page, rowsPerPage) => {
+export const getUsers = async (sortModel, page, rowsPerPage) => {
     const response = await $authHost.get('users', {
         params: {
-            valueToOrderBy,
-            order,
+            orderBy: sortModel?.field,
+            order: sortModel?.sort,
             page,
             rowsPerPage
         }
     });
+
     return response.data;
 };
