@@ -6,6 +6,7 @@ import { getUsers } from '../http/userAPI';
 
 const Admin = () => {
     const [users, setUsers] = React.useState([]);
+    const [usersCount, setUsersCount] = React.useState(0);
     const [valueToOrderBy, setValueToOrderBy] = React.useState('username');
     const [order, setOrder] = React.useState('asc');
     const [page, setPage] = React.useState(0);
@@ -69,7 +70,10 @@ const Admin = () => {
     };
 
     React.useEffect(() => {
-        getUsers(valueToOrderBy, order, page, rowsPerPage).then(setUsers);
+        getUsers(valueToOrderBy, order, page, rowsPerPage).then(data => {
+            setUsers(data.users);
+            setUsersCount(data.count);
+        });
     }, [valueToOrderBy, order, page, rowsPerPage]);
 
     return (
@@ -158,7 +162,7 @@ const Admin = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 15]}
                     component="div"
-                    count={-1}
+                    count={usersCount}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
