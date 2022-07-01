@@ -1,12 +1,13 @@
 import React from 'react';
+
 import { Container, Paper, Checkbox, Table, TableBody, TableContainer, TableHead, TableRow, TableCell, TableSortLabel, TablePagination } from '@mui/material';
 
 import { getUsers } from '../http/userAPI';
 
 const Admin = () => {
     const [users, setUsers] = React.useState([]);
-    const [valueToSortBy, setValueToSortBy] = React.useState('username');
-    const [sortDirection, setSortDirection] = React.useState('asc');
+    const [valueToOrderBy, setValueToOrderBy] = React.useState('username');
+    const [order, setOrder] = React.useState('asc');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [selected, setSelected] = React.useState([]);
@@ -53,23 +54,23 @@ const Admin = () => {
         if (property === 'Registration date') property = 'timestamp';
 
         return function (event) {
-            const isAscending = (valueToSortBy === property && sortDirection === 'asc');
-            setValueToSortBy(property);
-            setSortDirection(isAscending ? 'desc' : 'asc');
+            const isAscending = (valueToOrderBy === property && order === 'asc');
+            setValueToOrderBy(property);
+            setOrder(isAscending ? 'desc' : 'asc');
         }
     };
 
-    const handleChangePage = () => {
-
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = () => {
-
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(event.target.value);
     };
 
     React.useEffect(() => {
-        getUsers(valueToSortBy, sortDirection, page, rowsPerPage).then(setUsers);
-    }, [valueToSortBy, sortDirection, page, rowsPerPage]);
+        getUsers(valueToOrderBy, order, page, rowsPerPage).then(setUsers);
+    }, [valueToOrderBy, order, page, rowsPerPage]);
 
     return (
         <Container>
@@ -97,8 +98,8 @@ const Admin = () => {
                                             key={column}
                                         >
                                             <TableSortLabel
-                                                active={valueToSortBy === column.toLowerCase()}
-                                                direction={sortDirection}
+                                                active={valueToOrderBy === column.toLowerCase()}
+                                                direction={order}
                                                 onClick={createSortHandler(column.toLowerCase())}
                                             >
                                                 {column}
@@ -147,7 +148,9 @@ const Admin = () => {
                                         })}
                                     </TableRow>
                                 );
-                            })}
+                            })
+
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -155,7 +158,7 @@ const Admin = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 15]}
                     component="div"
-                    count={5 / rowsPerPage}
+                    count={-1}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

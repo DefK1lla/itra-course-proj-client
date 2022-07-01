@@ -4,13 +4,15 @@ import Box from '@mui/material/Box';
 
 const Loading = () => {
     return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            mt: '-70px'
-        }}>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '100vh',
+                minHeight: '100vh',
+                mt: '-70px'
+            }}>
             <CircularProgress />
         </Box>
     )
