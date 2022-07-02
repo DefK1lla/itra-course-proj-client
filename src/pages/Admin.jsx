@@ -3,6 +3,7 @@ import { Container } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 import { getUsers } from '../http/userAPI';
+import AdminToolbar from '../components/AdminToolbar';
 
 const Admin = () => {
     const columns = [
@@ -35,6 +36,7 @@ const Admin = () => {
             field: 'timestamp',
             headerName: 'Ragistration date',
             width: 150,
+            valueFormatter: (params) => new Date(params.value).toLocaleDateString(),
             renderCell: (params) => new Date(params.value).toLocaleDateString()
         },
     ];
@@ -58,7 +60,7 @@ const Admin = () => {
         setSortModel(model[0]);
     };
 
-    React.useEffect(() => {
+    const fetchUsers = () => {
         setUsers([]);
         setIsLoading(true);
         getUsers(sortModel, page, rowsPerPage).then(data => {
@@ -66,15 +68,24 @@ const Admin = () => {
             setUsersCount(data.count);
             setIsLoading(false);
         });
-    }, [sortModel, page, rowsPerPage]);
+    };
+
+    React.useEffect(fetchUsers, [sortModel, page, rowsPerPage]);
 
     return (
         <Container
             sx={{
-                height: 650
+                height: 700,
+                my: 3
             }}
         >
             <DataGrid
+                components={{
+                    Toolbar: AdminToolbar
+                }}
+                componentsProps={{
+                    toolbar: { fetchUsers }
+                }}
                 getRowId={(row) => row._id}
                 rows={users}
                 columns={columns}
