@@ -5,14 +5,14 @@ import { observer } from 'mobx-react-lite';
 import UserState from '../store/UserState';
 
 const WithoutAuth = observer(({ children }) => {
-    const navigate = useNavigate();
-    const goBack = () => navigate(-1);
+   const navigate = useNavigate();
+   const goBack = () => navigate(-1);
 
-    if (UserState.userData.role !== 'ADMIN') {
-        return goBack();
-    }
+   if (!(UserState.userData?.role === 'ADMIN')) {
+      return goBack();
+   }
 
-    return children;
+   return children;
 });
 
 export default WithoutAuth;

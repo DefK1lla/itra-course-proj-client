@@ -11,145 +11,144 @@ import { login } from '../http/authAPI';
 import ErrorAlert from '../components/ErrorAlert';
 
 function Login() {
-    const [alert, setAlert] = React.useState(false);
-    const [errorText, setErrorText] = React.useState('');
+   const [alert, setAlert] = React.useState(false);
+   const [errorText, setErrorText] = React.useState('');
 
-    const intl = useIntl();
+   const intl = useIntl();
 
-    const {
-        register,
-        setError,
-        handleSubmit,
-        formState: {
-            errors
-        }
-    } = useForm({
-        defaultValues: {
-            username: '',
-            email: '',
-            password: ''
-        },
-        mode: 'all'
-    });
+   const {
+      register,
+      setError,
+      handleSubmit,
+      formState: {
+         errors
+      }
+   } = useForm({
+      defaultValues: {
+         username: '',
+         email: '',
+         password: ''
+      },
+      mode: 'all'
+   });
 
-    const onSubmit = (data) => {
-        login({ ...data })
-            .then(user => UserState.login(user))
-            .catch(e => {
-                if (e.response.status === 404) {
-                    setError('password', {
-                        type: 'custom',
-                        message: intl.formatMessage({ id: 'login-page.error' })
-                    });
+   const onSubmit = (data) => {
+      login({ ...data })
+         .then(user => UserState.login(user))
+         .catch(e => {
+            if (e.response.status === 404) {
+               setError('password', {
+                  type: 'custom',
+                  message: intl.formatMessage({ id: 'login-page.error' })
+               });
 
-                    setError('username', {
-                        type: 'custom',
-                        message: intl.formatMessage({ id: 'login-page.error' })
-                    });
-                } else if (e.response.status === 403) {
-                    setAlert(true);
-                    setErrorText('login-page.user-blocked');
-                } else {
-                    setAlert(true);
-                    setErrorText('form.something-wrong');
-                }
+               setError('username', {
+                  type: 'custom',
+                  message: intl.formatMessage({ id: 'login-page.error' })
+               });
+            } else if (e.response.status === 403) {
+               setAlert(true);
+               setErrorText('login-page.user-blocked');
+            } else {
+               setAlert(true);
+               setErrorText('form.something-wrong');
             }
-            );
-    }
+         }
+         );
+   }
 
-    return (
-        <Container
+   return (
+      <Container
+         sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            pt: 10
+         }}
+      >
+         <ErrorAlert
+            open={alert}
+            setOpen={setAlert}
+            errorText={errorText}
+         />
+
+         <Card
             sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                pt: 10
+               maxWidth: 500,
+               width: '100%'
             }}
-        >
-            <ErrorAlert
-                open={alert}
-                setOpen={setAlert}
-                errorText={errorText}
-            />
+            component='form'
+            onSubmit={handleSubmit(onSubmit)}
+         >
 
-            <Card
-                sx={{
-                    maxWidth: 500,
-                    width: '100%'
-                }}
-                component='form'
-                onSubmit={handleSubmit(onSubmit)}
+            <Typography
+               variant='h3'
+               component='h2'
+               textAlign='center'
             >
+               <FormattedMessage id='signin' />
+            </Typography>
 
-                <Typography
-                    variant='h3'
-                    component='h2'
-                    textAlign='center'
-                >
-                    <FormattedMessage id='signin' />
-                </Typography>
+            <CardContent>
+               <TextField
+                  sx={{
+                     mb: 5
+                  }}
+                  fullWidth
+                  id='login-username'
+                  label={intl.formatMessage({ id: 'form.placeholder.username' })}
+                  {...register('username', {
+                     required: intl.formatMessage({ id: 'form.username.required' }),
+                  })}
+                  error={Boolean(errors?.username?.message)}
+                  helperText={errors?.username?.message}
+               />
 
-                <CardContent>
-                    <TextField
-                        sx={{
-                            mb: 5
-                        }}
-                        fullWidth
-                        id='login-username'
-                        label={intl.formatMessage({ id: 'form.placeholder.username' })}
-                        {...register('username', {
-                            required: intl.formatMessage({ id: 'form.username.required' }),
-                        })}
-                        error={Boolean(errors?.username?.message)}
-                        helperText={errors?.username?.message}
-                    />
+               <TextField
+                  fullWidth
+                  id='login-password'
+                  label={intl.formatMessage({ id: 'form.placeholder.password' })}
+                  autoComplete='on'
+                  type='password'
+                  {...register('password', {
+                     required: intl.formatMessage({ id: 'form.password.required' }),
+                  })}
+                  error={Boolean(errors?.password?.message)}
+                  helperText={errors?.password?.message}
+               />
+            </CardContent>
 
-                    <TextField
-                        fullWidth
-                        id='login-password'
-                        label={intl.formatMessage({ id: 'form.placeholder.password' })}
-                        autoComplete='on'
-                        type='password'
-                        {...register('password', {
-                            required: intl.formatMessage({ id: 'form.password.required' }),
-                        })}
-                        error={Boolean(errors?.password?.message)}
-                        helperText={errors?.password?.message}
-                    />
-                </CardContent>
+            <CardActions>
+               <Button
+                  variant='contained'
+                  size='large'
+                  type='submit'
+               >
+                  <FormattedMessage id='signin' />
+               </Button>
 
-                <CardActions
-                >
-                    <Button
-                        variant='contained'
-                        size='large'
-                        type='submit'
-                    >
-                        <FormattedMessage id='signin' />
-                    </Button>
+               <Typography
+                  sx={{
+                     mx: 1
+                  }}
+                  variant='span'
+                  component='span'
+                  textAlign='center'
+               >
+                  <FormattedMessage id='login-page.not-account' />
+               </Typography>
 
-                    <Typography
-                        sx={{
-                            mx: 1
-                        }}
-                        variant='span'
-                        component='span'
-                        textAlign='center'
-                    >
-                        <FormattedMessage id='login-page.not-account' />
-                    </Typography>
-
-                    <Link
-                        style={{
-                            color: SettingsState.theme.palette.primary.main
-                        }}
-                        to='/signup'
-                    >
-                        <FormattedMessage id='login-page.signup' />
-                    </Link>
-                </CardActions>
-            </Card>
-        </Container>
-    );
+               <Link
+                  style={{
+                     color: SettingsState.theme.palette.primary.main
+                  }}
+                  to='/signup'
+               >
+                  <FormattedMessage id='login-page.signup' />
+               </Link>
+            </CardActions>
+         </Card>
+      </Container>
+   );
 }
 
 export default Login;
