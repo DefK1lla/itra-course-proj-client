@@ -1,6 +1,6 @@
-import React from 'react'
-import CircularProgress from '@mui/material/CircularProgress'
-import Box from '@mui/material/Box'
+import React from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Loading = () => {
    return (
@@ -14,9 +14,9 @@ const Loading = () => {
             mt: '-70px'
          }}
       >
-         <CircularProgress />
+         <CircularProgress /> 
       </Box>
-   )
-}
+   );
+};
 
-export default Loading
+export default Loading;

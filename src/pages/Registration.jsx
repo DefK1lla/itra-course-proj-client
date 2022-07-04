@@ -168,6 +168,6 @@ const Registration = () => {
          </Card>
       </Container >
    );
-}
+};
 
 export default Registration;

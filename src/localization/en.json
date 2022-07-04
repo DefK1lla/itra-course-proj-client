@@ -43,5 +43,20 @@
    "admin-toolbar.remove-admin": "Remove admin rights",
    "admin-toolbar.block": "Block",
    "admin-toolbar.unblock": "Unblock",
-   "toolbar.delete": "Delete"
+   "toolbar.delete": "Delete",
+   "collection-editor.title-placeholder": "Enter the title...",
+   "collection-editor.description-placeholder": "Enter a description...",
+   "collection-editor.save-button": "Save",
+   "collection-editor.cancell-button": "Cancell",
+   "collection-editor.field-type-text": "Single line text",
+   "collection-editor.field-type-textarea": "Multiline text",
+   "collection-editor.field-type-date": "Date",
+   "collection-editor.field-type-checkbox": "Checkbox",
+    "collection-editor.field-type-number": "Number",
+   "collection-editor.field-type-placeholder": "Select type",
+   "collection-editor.field-title-placeholder": "Enter the title...",
+   "collection-editor.field-delete-button": "Delete",
+   "collection-editor.file-upload": "Upload image",
+   "collection-editor.file-uploaded": "Image uploaded",
+   "collection-editor.new-file-upload": "Upload new image?"
 }

@@ -43,5 +43,20 @@
    "admin-toolbar.remove-admin": "Отобрать права админа",
    "admin-toolbar.block": "Заблокировать",
    "admin-toolbar.unblock": "Разблокировать",
-   "toolbar.delete": "Удалить"
+   "toolbar.delete": "Удалить",
+   "collection-editor.title-placeholder": "Введите название...",
+   "collection-editor.description-placeholder": "Введите описание...",
+   "collection-editor.save-button": "Сохранить",
+   "collection-editor.cancell-button": "Отмена",
+   "collection-editor.field-type-text": "Однострочный текст",
+   "collection-editor.field-type-textarea": "Многострочный текст",
+   "collection-editor.field-type-date": "Дата",
+   "collection-editor.field-type-checkbox": "Флажок",
+   "collection-editor.field-type-number": "Число",
+   "collection-editor.field-type-placeholder": "Выберите тип",
+   "collection-editor.field-title-placeholder": "Введите название...",
+   "collection-editor.field-delete-button": "Удалить",
+   "collection-editor.file-upload": "Загрузить изображение",
+   "collection-editor.file-uploaded": "Изображение загружено",
+   "collection-editor.new-file-upload": "Загрузить новое изображение?"
 }

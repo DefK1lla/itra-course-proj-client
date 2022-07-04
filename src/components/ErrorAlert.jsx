@@ -1,6 +1,6 @@
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl';
 
-import { Snackbar, Alert, AlertTitle } from '@mui/material'
+import { Snackbar, Alert, AlertTitle } from '@mui/material';
 
 const ErrorAlert = ({ open, setOpen, errorText }) => {
    return (
@@ -22,7 +22,7 @@ const ErrorAlert = ({ open, setOpen, errorText }) => {
             <FormattedMessage id={errorText} />
          </Alert>
       </Snackbar>
-   )
-}
+   );
+};
 
-export default ErrorAlert
+export default ErrorAlert;

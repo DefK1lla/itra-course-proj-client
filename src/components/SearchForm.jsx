@@ -1,12 +1,12 @@
-import React from 'react'
-import { useIntl } from 'react-intl'
+import React from 'react';
+import { useIntl } from 'react-intl';
 
-import { InputBase, IconButton, Box } from '@mui/material'
-import { styled, alpha } from '@mui/material/styles'
-import SearchIcon from '@mui/icons-material/Search'
+import { InputBase, IconButton, Box } from '@mui/material';
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 
 function SearchForm() {
-   const intl = useIntl()
+   const intl = useIntl();
 
    const Search = styled('div')(({ theme }) => ({
       display: 'flex',
@@ -19,7 +19,7 @@ function SearchForm() {
          marginLeft: theme.spacing(3),
          width: 'auto'
       }
-   }))
+   }));
 
    const StyledInputBase = styled(InputBase)(({ theme }) => ({
       color: 'inherit',
@@ -29,7 +29,7 @@ function SearchForm() {
          width: '100%',
          [theme.breakpoints.up('md')]: { width: '20ch' }
       }
-   }))
+   }));
 
    return (
       <Box component='form' sx={{ mr: 'auto' }}>
@@ -43,7 +43,7 @@ function SearchForm() {
             </IconButton>
          </Search>
       </Box>
-   )
-}
+   );
+};
 
-export default SearchForm
+export default SearchForm;

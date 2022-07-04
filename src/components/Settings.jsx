@@ -1,5 +1,5 @@
-import React from 'react'
-import { useIntl, FormattedMessage } from 'react-intl'
+import React from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 import {
    Menu,
@@ -9,32 +9,32 @@ import {
    FormControl,
    InputLabel,
    Select
-} from '@mui/material'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+} from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import SettingsState from '../store/SettingsState'
+import SettingsState from '../store/SettingsState';
 
 const Settings = () => {
-   const intl = useIntl()
+   const intl = useIntl();
 
-   const [anchorEl, setAnchorEl] = React.useState(null)
-   const open = Boolean(anchorEl)
+   const [anchorEl, setAnchorEl] = React.useState(null);
+   const open = Boolean(anchorEl);
 
    const handleClick = event => {
-      setAnchorEl(event.currentTarget)
-   }
+      setAnchorEl(event.currentTarget);
+   };
 
    const handleClose = () => {
-      setAnchorEl(null)
-   }
+      setAnchorEl(null);
+   };
 
    const handleLanguageChange = event => {
-      SettingsState.setLocale(event.target.value)
-   }
+      SettingsState.setLocale(event.target.value);
+   };
 
    const handleThemeChange = event => {
-      SettingsState.setMode(event.target.value)
-   }
+      SettingsState.setMode(event.target.value);
+   };
 
    return (
       <div>
@@ -101,7 +101,7 @@ const Settings = () => {
             </MenuItem>
          </Menu>
       </div>
-   )
-}
+   );
+};
 
-export default Settings
+export default Settings;

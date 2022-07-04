@@ -149,6 +149,6 @@ function Login() {
          </Card>
       </Container>
    );
-}
+};
 
 export default Login;

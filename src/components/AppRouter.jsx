@@ -1,15 +1,16 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 
-import WithAuth from '../hoc/WithAuth'
-import WithAdminRole from '../hoc/WithAdminRole'
-import WithoutAuth from '../hoc/WithoutAuth'
-import Feed from '../pages/Feed'
-import Login from '../pages/Login'
-import Registration from '../pages/Registration'
-import Admin from '../pages/Admin'
+import WithAuth from '../hoc/WithAuth';
+import WithAdminRole from '../hoc/WithAdminRole';
+import WithoutAuth from '../hoc/WithoutAuth';
+import Feed from '../pages/Feed';
+import Login from '../pages/Login';
+import Registration from '../pages/Registration';
+import Admin from '../pages/Admin';
+import CollectionEditor from '../pages/CollectionEditor';
 
-function AppRouter() {
+const AppRouter = () => {
    return (
       <Routes>
          <Route exact path='/' element={<Feed />} />
@@ -20,6 +21,15 @@ function AppRouter() {
                <WithoutAuth>
                   <Login />
                </WithoutAuth>
+            )}
+         />
+         <Route
+            exact
+            path='/add-collection'
+            element={(
+               <WithAuth>
+                  <CollectionEditor />
+               </WithAuth>
             )}
          />
          <Route
@@ -42,7 +52,7 @@ function AppRouter() {
          />
          <Route path='*' element={<Feed />} />
       </Routes>
-   )
-}
+   );
+};
 
-export default AppRouter
+export default AppRouter;
