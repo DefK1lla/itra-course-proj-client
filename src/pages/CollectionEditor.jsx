@@ -17,6 +17,7 @@ import {
 
 import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
+import Loading from '../components/Loading';
 
 import { upload } from '../http/fileAPI';
 
@@ -32,6 +33,7 @@ const CollectionEditor = () => {
 
    const [descr, setDescr] = React.useState('');
    const [imgSrc, setImgSrc] = React.useState(null);
+   const [isLoading, setIsLoading] = React.useState(false);
 
    const options = React.useMemo(() => ({
       spellChecker: false,
@@ -67,6 +69,7 @@ const CollectionEditor = () => {
 
    const onSubmit = (data) => {
       if(descr) data.description = descr;
+      data.imgSrc = '';
       if(imgSrc) data.imgSrc = imgSrc;
       console.log(data)
    };
@@ -76,9 +79,12 @@ const CollectionEditor = () => {
    }, []);
 
    const handleFileUpload = async (file) => {
+      setIsLoading(true);
+      console.log(file)
       const formData = new FormData();
-      formData.append('img', file);
+      formData.append('file', file);
       const url = await upload(formData);
+      setIsLoading(false);
       setImgSrc(url);
    };
 
@@ -99,9 +105,15 @@ const CollectionEditor = () => {
                   file={imgSrc}
                />
 
+               {isLoading  &&
+                  <Loading 
+                     height={200}
+                  />
+               }
+
                {imgSrc && 
                   <Box 
-                     sx={{ maxWitdth: 400, alignSelf: 'center' }}
+                     sx={{ maxWidth: '100%', alignSelf: 'center' }}
                      component='img' 
                      src={imgSrc} 
                   />
