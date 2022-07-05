@@ -34,6 +34,15 @@ const AppRouter = () => {
          />
          <Route
             exact
+            path='/collection/:id/edit'
+            element={(
+               <WithAuth>
+                  <CollectionEditor />
+               </WithAuth>
+            )}
+         />
+         <Route
+            exact
             path='/signup'
             element={(
                <WithoutAuth>

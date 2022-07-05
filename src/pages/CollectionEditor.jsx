@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 
 import { 
@@ -22,7 +22,7 @@ import StyledMDE from '../components/StyledMDE';
 import Loading from '../components/Loading';
 
 import { upload } from '../http/fileAPI';
-import { createCollection } from '../http/collectionAPI';
+import { createCollection, getCollectionWithFields, updateCollection } from '../http/collectionAPI';
 import { getThemes } from '../http/themeAPI';
 
 const CollectionEditor = () => {
@@ -32,6 +32,8 @@ const CollectionEditor = () => {
    const intl = useIntl();
    const descrPlaceholder = intl.formatMessage({ id: 'collection-editor.description-placeholder' });
 
+   const { id } = useParams();
+
    const navigate = useNavigate();
    const goBack = () => navigate(-1);
 
@@ -39,10 +41,6 @@ const CollectionEditor = () => {
    const [imgSrc, setImgSrc] = React.useState(null);
    const [isLoading, setIsLoading] = React.useState(false);
    const [themes, setThemes] = React.useState([]);
-
-   React.useEffect(() => {
-      getThemes().then(setThemes);
-   }, []);
 
    const options = React.useMemo(() => ({
       spellChecker: false,
@@ -59,6 +57,7 @@ const CollectionEditor = () => {
    const { 
       register, 
       control, 
+      setValue,
       formState: {
          errors
       }, 
@@ -80,15 +79,40 @@ const CollectionEditor = () => {
       name: "fields"
    });
 
+   React.useEffect(() => {
+      if (id) {
+         const collectionPromise = getCollectionWithFields(id);
+         const themesPromise  = getThemes();
+
+         Promise.all([collectionPromise, themesPromise]).then((data) => {
+            const collection = data[0];
+
+            setThemes(data[1])
+            setImgSrc(collection.imgSrc ? collection.imgSrc : null);
+            setValue('title', collection.title);
+            setDescr(collection.description);
+            setValue('theme', data[1].find(theme => {
+               return theme.title.en === collection.theme || theme.title.ru === collection.theme;
+            }).title[SettingsState.locale]);
+            collection.fields.map(field => append(field, { shouldFocus: false }));
+         });
+      } else {
+         getThemes().then(setThemes);
+      }
+   }, [id]);
+
    const onDescrChange = React.useCallback((value) => {
       setDescr(value);
    }, []);
 
    const handleFileUpload = async (file) => {
       setIsLoading(true);
+
       const formData = new FormData();
       formData.append('file', file);
+
       const url = await upload(formData);
+
       setIsLoading(false);
       setImgSrc(url);
    };
@@ -96,11 +120,8 @@ const CollectionEditor = () => {
    const handleFileDelete = () => setImgSrc(null);
 
    const onSubmit = async (data) => {
-      data.description = '';
-      if(descr) data.description = descr;
-      
-      data.imgSrc = '';
-      if(imgSrc) data.imgSrc = imgSrc;
+      data.description = descr;
+      data.imgSrc = imgSrc ?? '';
       
       data.themeRef = themes.find(theme => 
          theme.title[SettingsState.locale] === data.theme
@@ -108,8 +129,11 @@ const CollectionEditor = () => {
 
       const { fields, ...collection } = data;
 
-      const newCollection = await createCollection(collection, fields);
-      console.log(newCollection)
+      if (id) {
+         await updateCollection(id, collection, fields);
+      } else {
+         await createCollection(collection, fields);
+      }
    };
 
    return (
