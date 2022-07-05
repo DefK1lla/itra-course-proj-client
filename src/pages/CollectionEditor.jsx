@@ -15,11 +15,15 @@ import {
    Box
 } from '@mui/material';
 
+import SettingsState from '../store/SettingsState';
+
 import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
 import Loading from '../components/Loading';
 
 import { upload } from '../http/fileAPI';
+import { createCollection } from '../http/collectionAPI';
+import { getThemes } from '../http/themeAPI';
 
 const CollectionEditor = () => {
    const fieldTypes = ['text', 'textarea', 'checkbox', 'date', 'number'];
@@ -34,6 +38,11 @@ const CollectionEditor = () => {
    const [descr, setDescr] = React.useState('');
    const [imgSrc, setImgSrc] = React.useState(null);
    const [isLoading, setIsLoading] = React.useState(false);
+   const [themes, setThemes] = React.useState([]);
+
+   React.useEffect(() => {
+      getThemes().then(setThemes);
+   }, []);
 
    const options = React.useMemo(() => ({
       spellChecker: false,
@@ -55,6 +64,10 @@ const CollectionEditor = () => {
       }, 
       handleSubmit 
    } = useForm({
+      defaultValues: {
+         title: '',
+         theme: 'selectTheme'
+      },
       mode: 'onSubmit'
    });
 
@@ -67,20 +80,12 @@ const CollectionEditor = () => {
       name: "fields"
    });
 
-   const onSubmit = (data) => {
-      if(descr) data.description = descr;
-      data.imgSrc = '';
-      if(imgSrc) data.imgSrc = imgSrc;
-      console.log(data)
-   };
-
    const onDescrChange = React.useCallback((value) => {
       setDescr(value);
    }, []);
 
    const handleFileUpload = async (file) => {
       setIsLoading(true);
-      console.log(file)
       const formData = new FormData();
       formData.append('file', file);
       const url = await upload(formData);
@@ -89,6 +94,23 @@ const CollectionEditor = () => {
    };
 
    const handleFileDelete = () => setImgSrc(null);
+
+   const onSubmit = async (data) => {
+      data.description = '';
+      if(descr) data.description = descr;
+      
+      data.imgSrc = '';
+      if(imgSrc) data.imgSrc = imgSrc;
+      
+      data.themeRef = themes.find(theme => 
+         theme.title[SettingsState.locale] === data.theme
+      )._id;
+
+      const { fields, ...collection } = data;
+
+      const newCollection = await createCollection(collection, fields);
+      console.log(newCollection)
+   };
 
    return (
       <Container>
@@ -113,7 +135,10 @@ const CollectionEditor = () => {
 
                {imgSrc && 
                   <Box 
-                     sx={{ maxWidth: '100%', alignSelf: 'center' }}
+                     sx={{ 
+                        maxWidth: '100%', 
+                        alignSelf: 'center' 
+                     }}
                      component='img' 
                      src={imgSrc} 
                   />
@@ -128,6 +153,31 @@ const CollectionEditor = () => {
                   {...register('title', { required: 'Field is requried' })}
                   error={Boolean(errors?.title?.message)}
                />
+
+               <NativeSelect
+                  {...register('theme', { 
+                     required: true,
+                     validate: (value) => value !== 'selectTheme'
+                  })}
+                  error={Boolean(errors?.theme)}
+               >
+                  <option 
+                     value={'selectTheme'} 
+                     disabled
+                  >
+                     <FormattedMessage id='collection-editor.field-theme-placeholder'/>
+                  </option>
+                  {themes.map(theme => (
+                     <option 
+                        key={theme._id}
+                        value={theme.title[SettingsState.locale]}
+                     >
+                        {theme.title[SettingsState.locale]}
+                     </option>
+                     )
+                  )}
+               </NativeSelect>
+
 
                <StyledMDE
                   value={descr} 
@@ -161,7 +211,10 @@ const CollectionEditor = () => {
                      return (
                         <Stack
                            sx={{ border: 0, p: 0 }}
-                           direction={{ xs: 'column', sm: 'row' }}
+                           direction={{ 
+                              xs: 'column', 
+                              sm: 'row' 
+                           }}
                            component='fieldset'
                            spacing={1}
                            key={item.id}>
@@ -171,7 +224,7 @@ const CollectionEditor = () => {
                                  required: true,
                                  validate: (value) => value !== 'selectType'
                               })}
-                              error={Boolean(errors?.fields?.[index].type?.type)}
+                              error={Boolean(errors?.fields?.[index].type)}
                            >
                               <option 
                                  value={'selectType'} 
@@ -193,7 +246,7 @@ const CollectionEditor = () => {
                               variant='standard'
                               placeholder={intl.formatMessage({ id: 'collection-editor.field-title-placeholder' })}
                               {...register(`fields.${index}.title`, { required: 'Field is requried' })}
-                              error={Boolean(errors?.fields?.[index].title?.message)}
+                              error={Boolean(errors?.fields?.[index].title)}
                               control={control}
                            />
                            <Button

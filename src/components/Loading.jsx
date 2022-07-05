@@ -18,5 +18,5 @@ const Loading = ({ height }) => {
       </Box>
    );
 };
-
+ 
 export default Loading;

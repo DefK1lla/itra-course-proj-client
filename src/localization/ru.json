@@ -45,6 +45,7 @@
    "admin-toolbar.unblock": "Разблокировать",
    "toolbar.delete": "Удалить",
    "collection-editor.title-placeholder": "Введите название...",
+   "collection-editor.field-theme-placeholder": "Выберите тему",
    "collection-editor.description-placeholder": "Введите описание...",
    "collection-editor.save-button": "Сохранить",
    "collection-editor.cancell-button": "Отмена",

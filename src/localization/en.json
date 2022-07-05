@@ -45,6 +45,7 @@
    "admin-toolbar.unblock": "Unblock",
    "toolbar.delete": "Delete",
    "collection-editor.title-placeholder": "Enter the title...",
+   "collection-editor.field-theme-placeholder": "Select theme",
    "collection-editor.description-placeholder": "Enter a description...",
    "collection-editor.save-button": "Save",
    "collection-editor.cancell-button": "Cancell",
