@@ -18,6 +18,8 @@ import {
 import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
 
+import { upload } from '../http/fileAPI';
+
 const CollectionEditor = () => {
    const fieldTypes = ['text', 'textarea', 'checkbox', 'date', 'number'];
    const fileTypes = ['JPEG', 'JPG', 'PNG'];
@@ -71,12 +73,13 @@ const CollectionEditor = () => {
 
    const onDescrChange = React.useCallback((value) => {
       setDescr(value);
-      console.log(descr)
    }, []);
 
-   const handleFileUpload = (file) => {
-      setImgSrc(file);
-      console.log(file);
+   const handleFileUpload = async (file) => {
+      const formData = new FormData();
+      formData.append('img', file);
+      const url = await upload(formData);
+      setImgSrc(url);
    };
 
    const handleFileDelete = () => setImgSrc(null);
@@ -97,7 +100,11 @@ const CollectionEditor = () => {
                />
 
                {imgSrc && 
-                  <Box component='img' src={imgSrc} />
+                  <Box 
+                     sx={{ maxWitdth: 400, alignSelf: 'center' }}
+                     component='img' 
+                     src={imgSrc} 
+                  />
                }
 
                <TextField
