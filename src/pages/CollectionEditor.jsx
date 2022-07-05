@@ -58,6 +58,7 @@ const CollectionEditor = () => {
       register, 
       control, 
       setValue,
+      getValues,
       formState: {
          errors
       }, 
@@ -91,9 +92,6 @@ const CollectionEditor = () => {
             setImgSrc(collection.imgSrc ? collection.imgSrc : null);
             setValue('title', collection.title);
             setDescr(collection.description);
-            setValue('theme', data[1].find(theme => {
-               return theme.title.en === collection.theme || theme.title.ru === collection.theme;
-            }).title[SettingsState.locale]);
             collection.fields.map(field => append(field, { shouldFocus: false }));
          });
       } else {
@@ -128,7 +126,6 @@ const CollectionEditor = () => {
       )._id;
 
       const { fields, ...collection } = data;
-
       if (id) {
          await updateCollection(id, collection, fields);
       } else {
@@ -183,6 +180,7 @@ const CollectionEditor = () => {
                      required: true,
                      validate: (value) => value !== 'selectTheme'
                   })}
+                  value={getValues('theme')}
                   error={Boolean(errors?.theme)}
                >
                   <option 
