@@ -21,8 +21,8 @@ import StyledMDE from '../components/StyledMDE';
 import FieldsGenerator from '../components/FieldsGenerator';
 import Loading from '../components/Loading';
 
-import file from '../http/fileAPI';
-import collection from '../http/collectionAPI';
+import fileApi from '../http/fileAPI';
+import collectionApi from '../http/collectionAPI';
 import { getThemes } from '../http/themeAPI';
 
 const CollectionEditor = () => {
@@ -75,7 +75,7 @@ const CollectionEditor = () => {
       
       if (id) {
          try {
-            const currentCollection = await collection.getWithFields(id);
+            const currentCollection = await collectionApi.getWithFields(id);
 
             setImgSrc(currentCollection.imgSrc ? currentCollection.imgSrc : null);
             setValue('title', currentCollection.title);
@@ -108,7 +108,7 @@ const CollectionEditor = () => {
       const formData = new FormData();
       formData.append('file', fileToUpload);
 
-      const url = await file.upload(formData);
+      const url = await fileApi.upload(formData);
 
       setImgLoading(false);
       setImgSrc(url);
@@ -126,9 +126,9 @@ const CollectionEditor = () => {
 
       const { fields, ...newCollection } = data;
       if (id) {
-         await collection.update(id, newCollection, fields);
+         await collectionApi.update(id, newCollection, fields);
       } else {
-         await collection.create(newCollection, fields);
+         await collectionApi.create(newCollection, fields);
       }
    };
 
@@ -136,7 +136,10 @@ const CollectionEditor = () => {
 
    return (
       <Container>
-         <Paper sx={{ my: 3, p: 2 }}>
+         <Paper sx={{ 
+            my: 3, 
+            p: 2 
+         }}>
             <Stack
                spacing={2}
                component='form'

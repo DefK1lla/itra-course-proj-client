@@ -9,11 +9,13 @@ import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Admin from '../pages/Admin';
 import CollectionEditor from '../pages/CollectionEditor';
+import User from '../pages/User';
 
 const AppRouter = () => {
    return (
       <Routes>
          <Route exact path='/' element={<Feed />} />
+         <Route exact path='/user/:id' element={<User />} />
          <Route
             exact
             path='/signin'

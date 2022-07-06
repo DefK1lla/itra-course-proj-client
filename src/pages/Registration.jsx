@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
 
-import { Card, CardContent, CardActions, TextField, Button, Container, Typography } from '@mui/material';
+import { 
+   Card, 
+   CardContent, 
+   CardActions, 
+   TextField, 
+   Button, 
+   Container, 
+   Typography, 
+   useTheme 
+} from '@mui/material';
 
-import SettingsState from '../store/SettingsState';
 import UserState from '../store/UserState';
-import { registration } from '../http/authAPI';
+import authApi from '../http/authAPI';
 import ErrorAlert from '../components/ErrorAlert';
 
 const Registration = () => {
@@ -15,6 +23,7 @@ const Registration = () => {
    const errorText = 'form.something-wrong';
 
    const intl = useIntl();
+   const theme = useTheme();
 
    const {
       register,
@@ -33,7 +42,7 @@ const Registration = () => {
    });
 
    const onSubmit = (data) => {
-      registration({ ...data })
+      authApi.registration({ ...data })
          .then(user => UserState.login(user))
          .catch(e => e.response.status === 400 ?
             setError(e.response.data.error.field, {
@@ -158,7 +167,7 @@ const Registration = () => {
 
                <Link
                   style={{
-                     color: SettingsState.theme.palette.primary.main
+                     color: theme.palette.text.primary,
                   }}
                   to='/signin'
                >

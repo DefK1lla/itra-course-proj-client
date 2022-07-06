@@ -5,7 +5,6 @@ class SettingsState {
    constructor() {
       this._locale = Locale.get('locale') || 'en';
       this._mode = Mode.get() || 'light';
-      this._theme = null;
 
       document.documentElement.setAttribute('lang', this._locale);
 
@@ -23,10 +22,6 @@ class SettingsState {
       this._mode = mode;
       Mode.set(this._mode);
    };
-
-   setTheme(theme) {
-      this._theme = theme;
-   }
 
    get mode() {
       return this._mode;

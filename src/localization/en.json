@@ -22,6 +22,8 @@
    "nav.signup": "Sign Up",
    "nav.home": "Home",
    "nav.profile": "Profile",
+   "nav.add-collection": "Add Collection",
+   "nav.add-item": "Add item",
    "nav.logout": "Logout",
    "settings.title": "Settings",
    "settings.lang": "Language",
@@ -59,5 +61,8 @@
    "collection-editor.field-delete-button": "Delete",
    "collection-editor.file-upload": "Upload image",
    "collection-editor.file-uploaded": "Image uploaded",
-   "collection-editor.new-file-upload": "Upload new image?"
+   "collection-editor.new-file-upload": "Upload new image?",
+   "user-page.no-collections": "No collections yet",
+   "collection-card-theme": "Theme",
+   "collection-card-user": "User"
 }

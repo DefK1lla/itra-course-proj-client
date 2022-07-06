@@ -11,13 +11,15 @@ import UserState from '../store/UserState';
 
 const NavBar = observer(() => {
    const [anchorElNav, setAnchorElNav] = React.useState(null);
-
    const pages = UserState.isAuth ? [{
-      title: <FormattedMessage id='nav.home' />,
-      path: '/'
-   }, {
       title: <FormattedMessage id='nav.profile' />,
-      path: '/me'
+      path: `/user/${UserState.userData._id}`
+   }, {
+      title: <FormattedMessage id='nav.add-collection' />,
+      path: '/add-collection'
+   }, {
+      title: <FormattedMessage id='nav.add-item' />,
+      path: '/add-item'
    }, {
       title: <FormattedMessage id='nav.logout' />,
       path: '/signin',
@@ -52,7 +54,14 @@ const NavBar = observer(() => {
 
    return (
       <Box>
-         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+         <Box sx={{ 
+            flexGrow: 1, 
+            display: { 
+               xs: 'flex', 
+               lg: 'none' 
+            } 
+         }}
+         >
             <IconButton
                size="large"
                aria-label="Menu"
@@ -79,13 +88,31 @@ const NavBar = observer(() => {
                open={Boolean(anchorElNav)}
                onClose={handleCloseNavMenu}
                sx={{
-                  display: { xs: 'block', md: 'none' },
+                  display: { 
+                     xs: 'block', 
+                     lg: 'none' 
+                  },
                }}
             >
+               <MenuItem
+                  onClick={handleCloseNavMenu}
+               >
+                  <Link
+                     style={{
+                           textDecoration: 'none',
+                           color: SettingsState.mode === 'dark' ? '#fff' : '#000'
+                     }}
+                     to='/'
+                  >
+                     <FormattedMessage id='nav.home' />
+                  </Link>
+               </MenuItem>
+
                {pages.map((page) => (
                   <MenuItem
                      key={page.path}
-                     onClick={handleCloseNavMenu}>
+                     onClick={handleCloseNavMenu}
+                  >
                      <Link
                         style={{
                            textDecoration: 'none',
@@ -106,11 +133,10 @@ const NavBar = observer(() => {
                flexGrow: 1,
                display: {
                   xs: 'none',
-                  md: 'flex'
+                  lg: 'flex'
                }
             }}
          >
-
             {pages.map((page) => (
                <Link
                   style={{

@@ -13,7 +13,7 @@ import Header from './components/layout/Header';
 import AppRouter from './components/AppRouter';
 import Loading from './components/Loading';
 
-import { authCheck } from './http/authAPI';
+import authApi from './http/authAPI';
 
 import enMessages from './localization/en.json';
 import ruMessages from './localization/ru.json';
@@ -27,15 +27,13 @@ const App = observer(() => {
       },
    }, muiLocale, DataGridLocale);
 
-   SettingsState.setTheme(theme);
-
    const messages = {
       'ru': ruMessages,
       'en': enMessages,
    };
 
    React.useEffect(() => {
-      authCheck().then(user => UserState.login(user)).catch(e => UserState.logout());
+      authApi.check().then(user => UserState.login(user)).catch(e => UserState.logout());
    }, []);
 
    return (

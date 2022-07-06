@@ -8,7 +8,8 @@ import {
    Fade,
    FormControl,
    InputLabel,
-   Select
+   Select,
+   Tooltip
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -38,17 +39,20 @@ const Settings = () => {
 
    return (
       <div>
-         <Button
-            color='inherit'
-            id='fade-button'
-            aria-controls={open ? 'fade-menu' : undefined}
-            aria-haspopup='true'
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
+         <Tooltip 
             title={intl.formatMessage({ id: 'settings.title' })}
          >
-            <MoreVertIcon />
-         </Button>
+            <Button
+               color='inherit'
+               id='fade-button'
+               aria-controls={open ? 'fade-menu' : undefined}
+               aria-haspopup='true'
+               aria-expanded={open ? 'true' : undefined}
+               onClick={handleClick}
+            >
+               <MoreVertIcon />
+            </Button>
+         </Tooltip>
          <Menu
             id='fade-menu'
             MenuListProps={{ 'aria-labelledby': 'fade-button' }}

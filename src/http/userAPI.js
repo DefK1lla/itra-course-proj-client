@@ -1,4 +1,4 @@
-import { $authHost } from "./index";
+import { $authHost, $host } from "./index";
 
 class UserApi {
    getAll = async (sortModel, page, rowsPerPage) => {
@@ -13,6 +13,12 @@ class UserApi {
 
       return response.data;
    };
+
+   getOneWithCollections = async (id) => {
+      const response = await $host.get(`users/${id}`);
+      
+      return response.data;
+   }
 
    blockUsers = async (userIds) => {
       const response = await $authHost.put('users/block', { userIds });

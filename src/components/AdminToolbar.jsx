@@ -16,7 +16,7 @@ import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 
-import user from '../http/userAPI';
+import userApi from '../http/userAPI';
 import UserState from '../store/UserState';
 
 const AdminToolbar = React.memo(({ fetchUsers }) => {
@@ -24,7 +24,7 @@ const AdminToolbar = React.memo(({ fetchUsers }) => {
 
    const handleDeleteClick = event => {
       const selected = gridContext.current.state.selection;
-      user.deleteUsers(selected).then(() => {
+      userApi.deleteUsers(selected).then(() => {
          if (selected.includes(UserState.userData._id)) return UserState.logout();
          fetchUsers();
       });
@@ -32,7 +32,7 @@ const AdminToolbar = React.memo(({ fetchUsers }) => {
 
    const handleBlockClick = event => {
       const selected = gridContext.current.state.selection;
-      user.blockUsers(selected).then(() => {
+      userApi.blockUsers(selected).then(() => {
          if (selected.includes(UserState.userData._id)) return UserState.logout();
          fetchUsers();
       });
@@ -40,17 +40,17 @@ const AdminToolbar = React.memo(({ fetchUsers }) => {
 
    const handleUnblockClick = event => {
       const selected = gridContext.current.state.selection;
-      user.unblockUsers(selected).then(fetchUsers);
+      userApi.unblockUsers(selected).then(fetchUsers);
    };
 
    const handleAddAdminClick = event => {
       const selected = gridContext.current.state.selection;
-      user.addAdmin(selected).then(fetchUsers);
+      userApi.addAdmin(selected).then(fetchUsers);
    };
 
    const handleRemoveAdminClick = event => {
       const selected = gridContext.current.state.selection;
-      user.deleteAdmin(selected).then(() => {
+      userApi.deleteAdmin(selected).then(() => {
          if (selected.includes(UserState.userData._id)) {
             return UserState.login({ ...UserState.userData, role: 'USER' });
          }

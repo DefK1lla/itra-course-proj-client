@@ -22,6 +22,8 @@
    "nav.signup": "Регистрация",
    "nav.home": "Главная",
    "nav.profile": "Профиль",
+   "nav.add-collection": "Добавить коллекцию",
+   "nav.add-item": "Добавить айтем",
    "nav.logout": "Выйти",
    "settings.title": "Настройки",
    "settings.lang": "Язык",
@@ -59,5 +61,8 @@
    "collection-editor.field-delete-button": "Удалить",
    "collection-editor.file-upload": "Загрузить изображение",
    "collection-editor.file-uploaded": "Изображение загружено",
-   "collection-editor.new-file-upload": "Загрузить новое изображение?"
+   "collection-editor.new-file-upload": "Загрузить новое изображение?",
+   "user-page.no-collections": "Коллекций пока нет",
+   "collection-card-theme": "Тема",
+   "collection-card-user": "Пользователь"
 }
