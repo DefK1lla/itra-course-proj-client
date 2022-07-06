@@ -8,7 +8,6 @@ import {
    Container, 
    Paper, 
    Stack, 
-   Typography, 
    Button, 
    TextField,  
    NativeSelect,
@@ -19,10 +18,11 @@ import SettingsState from '../store/SettingsState';
 
 import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
+import FieldsGenerator from '../components/FieldsGenerator';
 import Loading from '../components/Loading';
 
-import { upload } from '../http/fileAPI';
-import { createCollection, getCollectionWithFields, updateCollection } from '../http/collectionAPI';
+import file from '../http/fileAPI';
+import collection from '../http/collectionAPI';
 import { getThemes } from '../http/themeAPI';
 
 const CollectionEditor = () => {
@@ -42,23 +42,10 @@ const CollectionEditor = () => {
    const [isLoading, setIsLoading] = React.useState(false);
    const [themes, setThemes] = React.useState([]);
 
-   const options = React.useMemo(() => ({
-      spellChecker: false,
-      maxHeight: '300px',
-      autofocus: true,
-      placeholder: descrPlaceholder,
-      status: false,
-      autosave: {
-        enabled: true,
-        delay: 1000,
-      },
-    }), [descrPlaceholder]);
-
    const { 
       register, 
       control, 
       setValue,
-      getValues,
       formState: {
          errors
       }, 
@@ -80,36 +67,39 @@ const CollectionEditor = () => {
       name: "fields"
    });
 
-   React.useEffect(() => {
+   const fetchData = React.useCallback(async () => {
+      const themes = await getThemes();
+      setThemes(themes);
+
       if (id) {
-         const collectionPromise = getCollectionWithFields(id);
-         const themesPromise  = getThemes();
+         try {
+            const currentCollection = await collection.getWithFields(id);
 
-         Promise.all([collectionPromise, themesPromise]).then((data) => {
-            const collection = data[0];
-
-            setThemes(data[1])
-            setImgSrc(collection.imgSrc ? collection.imgSrc : null);
-            setValue('title', collection.title);
-            setDescr(collection.description);
-            collection.fields.map(field => append(field, { shouldFocus: false }));
-         });
-      } else {
-         getThemes().then(setThemes);
+            setImgSrc(currentCollection.imgSrc ? currentCollection.imgSrc : null);
+            setValue('title', currentCollection.title);
+            setDescr(currentCollection.description);
+            currentCollection.fields.map(field => append(field, { shouldFocus: false }));
+         } catch (e) {
+            navigate('/');
+         }
       }
-   }, [id]);
+   }, [append, navigate, id, setValue]);
+
+   React.useEffect(() => {
+      fetchData();
+   }, [fetchData]);
 
    const onDescrChange = React.useCallback((value) => {
       setDescr(value);
    }, []);
 
-   const handleFileUpload = async (file) => {
+   const handleFileUpload = async (fileToUpload) => {
       setIsLoading(true);
 
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', fileToUpload);
 
-      const url = await upload(formData);
+      const url = await file.upload(formData);
 
       setIsLoading(false);
       setImgSrc(url);
@@ -125,11 +115,11 @@ const CollectionEditor = () => {
          theme.title[SettingsState.locale] === data.theme
       )._id;
 
-      const { fields, ...collection } = data;
+      const { fields, ...newCollection } = data;
       if (id) {
-         await updateCollection(id, collection, fields);
+         await collection.update(id, newCollection, fields);
       } else {
-         await createCollection(collection, fields);
+         await collection.create(newCollection, fields);
       }
    };
 
@@ -180,7 +170,6 @@ const CollectionEditor = () => {
                      required: true,
                      validate: (value) => value !== 'selectTheme'
                   })}
-                  value={getValues('theme')}
                   error={Boolean(errors?.theme)}
                >
                   <option 
@@ -200,88 +189,21 @@ const CollectionEditor = () => {
                   )}
                </NativeSelect>
 
-
                <StyledMDE
                   value={descr} 
                   onChange={onDescrChange} 
-                  options={options} 
+                  placeholder={descrPlaceholder} 
                />
 
-                <Stack
-                  spacing={2}
-                  alignItems='start'
-               >
-
-                  <Typography
-                     variant='body'
-                     component='p'
-                  >
-                     Need more fields?                        
-                  </Typography>
-
-                  <Button
-                     size='small'
-                     variant='contained'
-                     onClick={() => {
-                       append({ type: 'selectType', title: '' });
-                     }}
-                  >
-                     Add field
-                  </Button>
-
-                  {fields.map((item, index) => {
-                     return (
-                        <Stack
-                           sx={{ border: 0, p: 0 }}
-                           direction={{ 
-                              xs: 'column', 
-                              sm: 'row' 
-                           }}
-                           component='fieldset'
-                           spacing={1}
-                           key={item.id}>
-
-                           <NativeSelect
-                              {...register(`fields.${index}.type`, { 
-                                 required: true,
-                                 validate: (value) => value !== 'selectType'
-                              })}
-                              error={Boolean(errors?.fields?.[index].type)}
-                           >
-                              <option 
-                                 value={'selectType'} 
-                                 disabled
-                              >
-                                 <FormattedMessage id='collection-editor.field-type-placeholder'/>
-                              </option>
-                              {fieldTypes.map(type => 
-                                 <option 
-                                    key={type}
-                                    value={type}
-                                 >
-                                    <FormattedMessage id={`collection-editor.field-type-${type}`} />
-                                 </option>
-                              )}
-                           </NativeSelect>
-
-                           <TextField
-                              variant='standard'
-                              placeholder={intl.formatMessage({ id: 'collection-editor.field-title-placeholder' })}
-                              {...register(`fields.${index}.title`, { required: 'Field is requried' })}
-                              error={Boolean(errors?.fields?.[index].title)}
-                              control={control}
-                           />
-                           <Button
-                              color='error'
-                              size='small'
-                              onClick={() => remove(index)}
-                           >
-                              <FormattedMessage id='collection-editor.field-delete-button' />
-                           </Button>
-                        </Stack>
-                     );
-                  })}
-               </Stack>
+               <FieldsGenerator 
+                  fields={fields}
+                  append={append}
+                  remove={remove}
+                  register={register}
+                  errors={errors}
+                  control={control}
+                  fieldTypes={fieldTypes}
+               />
 
                <Stack
                   direction='row'

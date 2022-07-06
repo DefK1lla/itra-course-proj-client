@@ -1,7 +1,12 @@
 import { $authHost } from "./index";
 
-export const upload = async (formData) => {
-   const response = await $authHost.post('file', formData);
+
+class FileApi {
+   upload = async (formData) => {
+      const response = await $authHost.post('file', formData);
    
-   return response.data;
-};
+      return response.data;
+   };
+}
+
+export default new FileApi();

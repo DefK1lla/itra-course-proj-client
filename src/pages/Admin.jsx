@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { Container } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
-import { getUsers } from '../http/userAPI';
+import user from '../http/userAPI';
 import AdminToolbar from '../components/AdminToolbar';
 
 const Admin = () => {
@@ -62,7 +62,7 @@ const Admin = () => {
    const fetchUsers = () => {
       setUsers([]);
       setIsLoading(true);
-      getUsers(sortModel, page, rowsPerPage).then(data => {
+      user.getAll(sortModel, page, rowsPerPage).then(data => {
          setUsers(data.users);
          setUsersCount(data.count);
          setIsLoading(false);

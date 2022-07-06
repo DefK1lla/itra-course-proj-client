@@ -1,19 +1,23 @@
 import { $authHost } from "./index";
 
-export const createCollection = async (collection, fields) => {
-   const response = await $authHost.post('collection', { collection, fields });
+class CollectionApi {
+   create = async (collection, fields) => {
+      const response = await $authHost.post('collection', { collection, fields });
 
-   return response.data;
-};
+      return response.data;
+   };
 
-export const getCollectionWithFields = async (id) => {
-   const response = await $authHost.get(`collection/${id}/edit`);
+   getWithFields = async (id) => {
+      const response = await $authHost.get(`collection/${id}/edit`);
 
-   return response.data;
-};
+      return response.data;
+   };
 
-export const updateCollection = async (id, collection, fields) => {
-   const response = await $authHost.put(`collection/${id}`, { collection, fields });
+   update = async (id, collection, fields) => {
+      const response = await $authHost.put(`collection/${id}`, { collection, fields });
 
-   return response.data;
-};
+      return response.data;
+   };
+}
+
+export default new CollectionApi();

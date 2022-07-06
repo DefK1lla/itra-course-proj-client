@@ -5,7 +5,19 @@ import SimpleMDE from 'react-simplemde-editor';
 
 import 'easymde/dist/easymde.min.css';
 
-const StyledMDE = ({ value, onChange, options }) => {
+const StyledMDE = ({ value, onChange, placeholder }) => {
+   const options = React.useMemo(() => ({
+      spellChecker: false,
+      maxHeight: '300px',
+      autofocus: true,
+      placeholder: placeholder,
+      status: false,
+      autosave: {
+        enabled: true,
+        delay: 1000,
+      },
+    }), [placeholder]);
+
    const StyledEditor = React.useMemo(() => (
       styled(SimpleMDE)(({ theme }) => ({
          "& .fullscreen ": {
