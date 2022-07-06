@@ -37,15 +37,17 @@ const CollectionEditor = () => {
    const navigate = useNavigate();
    const goBack = () => navigate(-1);
 
+   const [isLoading, setIsLoading] = React.useState(true);
    const [descr, setDescr] = React.useState('');
    const [imgSrc, setImgSrc] = React.useState(null);
-   const [isLoading, setIsLoading] = React.useState(false);
+   const [imgLoading, setImgLoading] = React.useState(false);
    const [themes, setThemes] = React.useState([]);
 
    const { 
       register, 
       control, 
       setValue,
+      getValues,
       formState: {
          errors
       }, 
@@ -70,19 +72,26 @@ const CollectionEditor = () => {
    const fetchData = React.useCallback(async () => {
       const themes = await getThemes();
       setThemes(themes);
-
+      
       if (id) {
          try {
             const currentCollection = await collection.getWithFields(id);
 
             setImgSrc(currentCollection.imgSrc ? currentCollection.imgSrc : null);
             setValue('title', currentCollection.title);
+            setValue('theme', themes.find(theme => 
+               theme.title.ru === currentCollection.theme || theme.title.en === currentCollection.theme
+            ).title[SettingsState.locale]);
             setDescr(currentCollection.description);
             currentCollection.fields.map(field => append(field, { shouldFocus: false }));
+
          } catch (e) {
+            console.log(e);
             navigate('/');
          }
       }
+
+      setIsLoading(false);
    }, [append, navigate, id, setValue]);
 
    React.useEffect(() => {
@@ -94,14 +103,14 @@ const CollectionEditor = () => {
    }, []);
 
    const handleFileUpload = async (fileToUpload) => {
-      setIsLoading(true);
+      setImgLoading(true);
 
       const formData = new FormData();
       formData.append('file', fileToUpload);
 
       const url = await file.upload(formData);
 
-      setIsLoading(false);
+      setImgLoading(false);
       setImgSrc(url);
    };
 
@@ -123,6 +132,8 @@ const CollectionEditor = () => {
       }
    };
 
+   if (isLoading) return <Loading />
+
    return (
       <Container>
          <Paper sx={{ my: 3, p: 2 }}>
@@ -138,7 +149,7 @@ const CollectionEditor = () => {
                   file={imgSrc}
                />
 
-               {isLoading  &&
+               {imgLoading  &&
                   <Loading 
                      height={200}
                   />
@@ -170,6 +181,7 @@ const CollectionEditor = () => {
                      required: true,
                      validate: (value) => value !== 'selectTheme'
                   })}
+                  defaultValue={getValues('theme')}
                   error={Boolean(errors?.theme)}
                >
                   <option 
