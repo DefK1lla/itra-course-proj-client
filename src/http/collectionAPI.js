@@ -1,8 +1,14 @@
-import { $authHost } from "./index";
+import { $authHost, $host } from "./index";
 
 class CollectionApi {
    create = async (collection, fields) => {
       const response = await $authHost.post('collection', { collection, fields });
+
+      return response.data;
+   };
+
+   getOne = async (id) => {
+      const response = await $host.get(`collection/${id}`);
 
       return response.data;
    };

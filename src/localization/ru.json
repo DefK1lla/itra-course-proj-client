@@ -63,6 +63,7 @@
    "collection-editor.file-uploaded": "Изображение загружено",
    "collection-editor.new-file-upload": "Загрузить новое изображение?",
    "user-page.no-collections": "Коллекций пока нет",
-   "collection-card-theme": "Тема",
-   "collection-card-user": "Пользователь"
+   "collection-card.theme": "Тема",
+   "collection-card.user": "Пользователь",
+   "collection-card.items-count": "Количество айтемов"
 }

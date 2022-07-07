@@ -21,6 +21,7 @@
     "react-drag-drop-files": "^2.3.7",
     "react-hook-form": "^7.32.2",
     "react-intl": "^6.0.4",
+    "react-markdown": "^8.0.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-simplemde-editor": "^5.0.2",

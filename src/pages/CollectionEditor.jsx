@@ -127,8 +127,10 @@ const CollectionEditor = () => {
       const { fields, ...newCollection } = data;
       if (id) {
          await collectionApi.update(id, newCollection, fields);
+         navigate(`/collection/${id}`);
       } else {
-         await collectionApi.create(newCollection, fields);
+         const createdCollection = await collectionApi.create(newCollection, fields);
+         navigate(`/collection/${createdCollection._id}`);
       }
    };
 

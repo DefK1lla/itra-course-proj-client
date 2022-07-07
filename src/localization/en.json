@@ -63,6 +63,7 @@
    "collection-editor.file-uploaded": "Image uploaded",
    "collection-editor.new-file-upload": "Upload new image?",
    "user-page.no-collections": "No collections yet",
-   "collection-card-theme": "Theme",
-   "collection-card-user": "User"
+   "collection-card.theme": "Theme",
+   "collection-card.user": "User",
+   "collection-card.items-count": "Items count"
 }

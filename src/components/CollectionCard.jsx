@@ -8,7 +8,6 @@ import {
    CardHeader, 
    CardMedia, 
    CardContent, 
-   Box, 
    Typography,
    CardActions,
    useTheme  
@@ -46,9 +45,20 @@ const CollectionCard = ({ collection }) => {
 
                <CardContent>
                   <Typography 
-                     variant="caption" 
-                     color="text.secondary">
-                     <FormattedMessage id='collection-card-theme' />: {collection.theme}
+                     variant='caption'
+                     component='div'
+                     color='text.secondary'
+                     gutterBottom 
+                  >
+                     <FormattedMessage id='collection-card.theme' />: {collection.theme}
+                  </Typography>
+
+                  <Typography 
+                     variant='caption' 
+                     component='div'
+                     color='text.secondary'
+                  >
+                     <FormattedMessage id='collection-card.items-count' />: {collection.itemsCount}
                   </Typography>
                </CardContent>  
             </CardActionArea>
@@ -58,7 +68,7 @@ const CollectionCard = ({ collection }) => {
                variant="body2" 
                color="text.secondary"
             >
-               <FormattedMessage id='collection-card-user' />: 
+               <FormattedMessage id='collection-card.user' />: 
                <Link 
                   style={{
                      color: theme.palette.info.main,
