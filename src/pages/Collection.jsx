@@ -15,7 +15,7 @@ const Collection = () => {
    const [isCollectionLoading, setIsCollectionLoading] = React.useState(true);
    const [isItemsLoading, setItemsIsLoading] = React.useState(true);
 
-   const fetchData = async () => {
+   const fetchData = React.useCallback(async () => {
       try {
          const collection = await collectionApi.getOne(id);
          setIsCollectionLoading(true);
@@ -25,11 +25,11 @@ const Collection = () => {
          console.warn(e);
          navigate('/');
       }
-   };
+   },[id, navigate]);
 
    React.useEffect(() => {
       fetchData();
-   }, []);
+   }, [fetchData]);
 
    return(
       <Container>

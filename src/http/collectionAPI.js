@@ -13,6 +13,12 @@ class CollectionApi {
       return response.data;
    };
 
+   getUserCollections = async (userId) => {
+      const response = await $host.get(`collection/user/${userId}`);
+      
+      return response.data;
+   }
+
    getWithFields = async (id) => {
       const response = await $authHost.get(`collection/${id}/edit`);
 

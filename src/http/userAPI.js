@@ -14,7 +14,7 @@ class UserApi {
       return response.data;
    };
 
-   getOneWithCollections = async (id) => {
+   getOne = async (id) => {
       const response = await $host.get(`users/${id}`);
       
       return response.data;

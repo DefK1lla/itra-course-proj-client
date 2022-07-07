@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 import UserCard from '../components/UserCard';
 
 import userApi from '../http/userAPI';
+import collectionApi from '../http/collectionAPI';
 
 
 const User = () => {
@@ -20,16 +21,22 @@ const User = () => {
    const [collections, setCollections] = React.useState([]);
    const [isLoading, setIsLoading] = React.useState(true);
 
-   React.useEffect(() => {
-      userApi.getOneWithCollections(id).then(data => {
-         setUser(data.user);
-         setCollections(data.collections);
+   const fetchData = React.useCallback(async () => {
+      try {
+         const user = await userApi.getOne(id);
+         const collections = await collectionApi.getUserCollections(id);
+         setUser(user);
+         setCollections(collections);
          setIsLoading(false);
-      }).catch(e => {
+      } catch (e) {
          console.warn(e);
          navigate('/');
-      });
+      }
    }, [id, navigate]);
+
+   React.useEffect(() => {
+     fetchData();
+   }, [fetchData]);
 
    if (isLoading) return <Loading />;
 
