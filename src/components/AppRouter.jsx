@@ -8,9 +8,12 @@ import Feed from '../pages/Feed';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Admin from '../pages/Admin';
-import CollectionEditor from '../pages/CollectionEditor';
 import User from '../pages/User';
+import CollectionEditor from '../pages/CollectionEditor';
 import Collection from '../pages/Collection';
+import ItemEditor from '../pages/ItemEditor';
+
+
 
 const AppRouter = () => {
    return (
@@ -42,6 +45,15 @@ const AppRouter = () => {
             element={(
                <WithAuth>
                   <CollectionEditor />
+               </WithAuth>
+            )}
+         />
+         <Route
+            exact
+            path='/add-item'
+            element={(
+               <WithAuth>
+                  <ItemEditor />
                </WithAuth>
             )}
          />

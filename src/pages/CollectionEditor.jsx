@@ -8,7 +8,6 @@ import {
    Container, 
    Paper, 
    Stack, 
-   Button, 
    TextField,  
    NativeSelect,
    Box
@@ -20,6 +19,7 @@ import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
 import FieldsGenerator from '../components/FieldsGenerator';
 import Loading from '../components/Loading';
+import EditorControls from '../components/EditorControls';
 
 import fileApi from '../http/fileAPI';
 import collectionApi from '../http/collectionAPI';
@@ -35,7 +35,6 @@ const CollectionEditor = () => {
    const { id } = useParams();
 
    const navigate = useNavigate();
-   const goBack = () => navigate(-1);
 
    const [isLoading, setIsLoading] = React.useState(true);
    const [descr, setDescr] = React.useState('');
@@ -138,10 +137,12 @@ const CollectionEditor = () => {
 
    return (
       <Container>
-         <Paper sx={{ 
-            my: 3, 
-            p: 2 
-         }}>
+         <Paper 
+            sx={{ 
+               my: 3, 
+               p: 2 
+            }}
+         > 
             <Stack
                spacing={2}
                component='form'
@@ -222,25 +223,7 @@ const CollectionEditor = () => {
                   fieldTypes={fieldTypes}
                />
 
-               <Stack
-                  direction='row'
-                  spacing={2}
-               >
-                  <Button
-                     size='large'
-                     variant='contained'
-                     type='submit'
-                  >
-                     <FormattedMessage id='collection-editor.save-button' />
-                  </Button>
-
-                  <Button
-                     size='small'
-                     onClick={goBack}
-                  >
-                     <FormattedMessage id='collection-editor.cancell-button' />
-                  </Button>
-               </Stack>
+               <EditorControls />
             </Stack>
          </Paper>
       </Container>

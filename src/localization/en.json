@@ -65,5 +65,7 @@
    "user-page.no-collections": "No collections yet",
    "collection-card.theme": "Theme",
    "collection-card.user": "User",
-   "collection-card.items-count": "Items count"
+   "collection-card.items-count": "Items count",
+   "item-editor.title-label": "Title",
+   "item-editor.collection-placeholder": "Select collection"
 }

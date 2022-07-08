@@ -25,6 +25,12 @@ class CollectionApi {
       return response.data;
    };
 
+   getFields = async (id) => {
+      const response = await $authHost.get(`collection/fields/${id}`);
+
+      return response.data;
+   };
+
    update = async (id, collection, fields) => {
       const response = await $authHost.put(`collection/${id}`, { collection, fields });
 

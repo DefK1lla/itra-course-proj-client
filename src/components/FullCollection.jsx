@@ -30,7 +30,6 @@ const FullCollection = ({ collection, isLoading }) => {
          }}
       >
          <CardContent>
-
             <CardHeader
               title={collection.title}
               subheader={new Date(collection.timestamp).toLocaleDateString()}
@@ -83,7 +82,6 @@ const FullCollection = ({ collection, isLoading }) => {
             </Box>
 
             <ReactMarkdown children={collection.description} />
-
          </CardContent>  
       </Card>
    );

@@ -65,5 +65,7 @@
    "user-page.no-collections": "Коллекций пока нет",
    "collection-card.theme": "Тема",
    "collection-card.user": "Пользователь",
-   "collection-card.items-count": "Количество айтемов"
+   "collection-card.items-count": "Количество айтемов",
+   "item-editor.title-label": "Название",
+   "item-editor.collection-placeholder": "Выберите коллекцию"
 }
