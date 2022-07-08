@@ -49,12 +49,7 @@ const ItemEditor = ({ collectionId, userId }) => {
    const fetchCollections = React.useCallback(async () => {
       const collections = await collectionApi.getUserCollections(UserState.userData._id);
       setCollections(collections);
-
-      if (collectionId) {
-         
-         await fetchFields(collectionId);
-      }
-   }, [collectionId, setValue]);
+   }, []);
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
@@ -65,7 +60,7 @@ const ItemEditor = ({ collectionId, userId }) => {
 
    const valueFormatter = (value) => {
       if (value instanceof Date) return value.toLocaleDateString();
-      return value
+      return value;
    };
 
    const onSubmit = async (data) => {
@@ -92,6 +87,7 @@ const ItemEditor = ({ collectionId, userId }) => {
    React.useEffect(() => {
       if (collectionId) {
          setValue('collectionRef', collectionId);
+         fetchFields(collectionId);
       }
    }, [collections, setValue, collectionId]);
 
