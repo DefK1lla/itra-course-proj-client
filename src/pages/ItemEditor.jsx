@@ -16,11 +16,12 @@ import {
 import UserState from '../store/UserState';
 
 import collectionApi from '../http/collectionAPI';
+import itemApi from '../http/itemAPI';
 
 import EditorControls from '../components/EditorControls';
 import Fieldset from '../components/Fieldset';
 
-const ItemEditor = () => {
+const ItemEditor = ({ collectionId, userId }) => {
    const intl = useIntl();
    const { id } = useParams();
    const navigate = useNavigate();
@@ -40,22 +41,27 @@ const ItemEditor = () => {
    } = useForm({
       defaultValues: {
          title: '',
-         collectionRef: 'selectCol'
+         collectionRef: 'selectColection'
       },
       mode: 'onSubmit'
    });
 
-   const fetchCollections = async () => {
+   const fetchCollections = React.useCallback(async () => {
       const collections = await collectionApi.getUserCollections(UserState.userData._id);
       setCollections(collections);
-   };
 
-   const fethFields = async (id) => {
+      if (collectionId) {
+         
+         await fetchFields(collectionId);
+      }
+   }, [collectionId, setValue]);
+
+   const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
       setFields(fields);
    };
 
-   const handleCollectionChange = (event) => fethFields(event.target.value);
+   const handleCollectionChange = (event) => fetchFields(event.target.value);
 
    const valueFormatter = (value) => {
       if (value instanceof Date) return value.toLocaleDateString();
@@ -63,7 +69,7 @@ const ItemEditor = () => {
    };
 
    const onSubmit = async (data) => {
-      data.fields = data.fields.map(field => {
+      data.fields = data.fields?.map(field => {
          const fieldId = fields.find((f) => f.title = Object.keys(field)[0])._id;
          const value = field[Object.keys(field)[0]];
 
@@ -74,11 +80,20 @@ const ItemEditor = () => {
       });
 
       console.log(data)
+
+      const createdItem = await itemApi.create(data);
+      navigate(`/item/${createdItem._id}`);
    };
 
    React.useEffect(() => {
       fetchCollections();
-   }, []);
+   }, [fetchCollections, setValue, collectionId]);
+
+   React.useEffect(() => {
+      if (collectionId) {
+         setValue('collectionRef', collectionId);
+      }
+   }, [collections, setValue, collectionId]);
 
    return (
       <Container>
@@ -107,18 +122,19 @@ const ItemEditor = () => {
                   fullWidth
                   {...register('collectionRef', { 
                      required: true,
-                     validate: (value) => value !== 'selectCol'
+                     validate: (value) => value !== 'selectColection'
                   })}
-                  error={Boolean(errors?.collectionRef)}
+                  defaultValue={getValues('collectionRef')}
                   onChange={handleCollectionChange}
+                  error={Boolean(errors?.collectionRef)}
                >
                   <option 
-                     value={'selectCol'} 
+                     value={'selectColection'} 
                      disabled
                   >
                      <FormattedMessage id='item-editor.collection-placeholder' />
                   </option>
-                  {collections.map(collection => (
+                  {collections.map(collection =>  (
                      <option 
                         key={collection._id}
                         value={collection._id}

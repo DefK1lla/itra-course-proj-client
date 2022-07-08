@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 
 import SettingsState from '../store/SettingsState';
+import UserState from '../store/UserState';
 
 import Filefield from '../components/Filefield';
 import StyledMDE from '../components/StyledMDE';
@@ -25,7 +26,7 @@ import fileApi from '../http/fileAPI';
 import collectionApi from '../http/collectionAPI';
 import { getThemes } from '../http/themeAPI';
 
-const CollectionEditor = () => {
+const CollectionEditor = ({ userId }) => {
    const fieldTypes = ['text', 'textarea', 'checkbox', 'date', 'number'];
    const fileTypes = ['JPEG', 'JPG', 'PNG'];
 
@@ -47,6 +48,7 @@ const CollectionEditor = () => {
       control, 
       setValue,
       getValues,
+      reset,
       formState: {
          errors
       }, 
@@ -94,8 +96,10 @@ const CollectionEditor = () => {
    }, [append, navigate, id, setValue]);
 
    React.useEffect(() => {
+      reset();
+      setDescr('');
       fetchData();
-   }, [fetchData]);
+   }, [fetchData, reset]);
 
    const onDescrChange = React.useCallback((value) => {
       setDescr(value);
@@ -122,11 +126,16 @@ const CollectionEditor = () => {
       data.themeRef = themes.find(theme => 
          theme.title[SettingsState.locale] === data.theme
       )._id;
+      data.userRef = userId || UserState.userData._id;
 
       const { fields, ...newCollection } = data;
+      console.log(newCollection)
+      console.log(UserState.userData._id)
+
       if (id) {
-         await collectionApi.update(id, newCollection, fields);
-         navigate(`/collection/${id}`);
+         console.log(newCollection)
+         const updatedCollection = await collectionApi.update(id, newCollection, fields);
+         navigate(`/collection/${updatedCollection._id}`);
       } else {
          const createdCollection = await collectionApi.create(newCollection, fields);
          navigate(`/collection/${createdCollection._id}`);
