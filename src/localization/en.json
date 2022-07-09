@@ -66,6 +66,6 @@
    "collection-card.theme": "Theme",
    "collection-card.user": "User",
    "collection-card.items-count": "Items count",
-   "item-editor.title-label": "Title",
+   "item-editor.title-placeholder": "Title",
    "item-editor.collection-placeholder": "Select collection"
 }

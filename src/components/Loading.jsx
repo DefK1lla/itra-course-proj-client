@@ -9,7 +9,7 @@ const Loading = ({ height }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            minWidth: '100vh',
+            width: '100%',
             minHeight: height ?? '100vh',
             mt: '-70px'
          }}

@@ -29,7 +29,9 @@ const Fieldset = ({ fields, register, control, errors }) => {
                      <FormControlLabel
                         key={field._id} 
                         control={
-                           <Checkbox />
+                           <Checkbox
+                              defaultChecked={field.value ? JSON.parse(field.value) : false}
+                           />
                         } 
                         label={field.title} 
                         {
@@ -46,7 +48,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                         key={field._id}
                         name={`fields[${index}].${field.title}`} 
                         control={control} 
-                        defaultValue={new Date()}
+                        defaultValue={field.value ? new Date(field.value) : new Date()}
                         render={(props) => 
                            <LocalizationProvider 
                               dateAdapter={AdapterDateFns}
@@ -85,6 +87,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                            ...register(`fields[${index}].${field.title}`, 
                            { required: true })
                         }
+                        defaultValue={field.value}
                      />
                   );
                }
@@ -101,6 +104,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                         ...register(`fields[${index}].${field.title}`, 
                         { required: true })
                      }
+                     defaultValue={field.value}
                   />
                );
 

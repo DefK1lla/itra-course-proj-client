@@ -34,6 +34,7 @@ const ItemEditor = ({ collectionId, userId }) => {
       control, 
       setValue,
       getValues,
+      reset,
       formState: {
          errors
       }, 
@@ -46,10 +47,27 @@ const ItemEditor = ({ collectionId, userId }) => {
       mode: 'onSubmit'
    });
 
-   const fetchCollections = React.useCallback(async () => {
+   const fetchData = React.useCallback(async () => {
       const collections = await collectionApi.getUserCollections(UserState.userData._id);
       setCollections(collections);
-   }, []);
+
+      if (id) {
+         const item = await itemApi.getForEdit(id);
+         setValue('title', item.title);
+         setValue('collectionRef', item.collectionRef);
+
+         const newFields = item.fields.map(field => {
+
+            return {
+               ...field.fieldRef,
+               value: field.value
+            }
+         });
+
+         setFields(newFields)
+      }
+
+   }, [setValue, id]);
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
@@ -64,25 +82,33 @@ const ItemEditor = ({ collectionId, userId }) => {
    };
 
    const onSubmit = async (data) => {
+      console.log(fields)
       data.fields = data.fields?.map(field => {
-         const fieldId = fields.find((f) => f.title = Object.keys(field)[0])._id;
+         const fieldId = fields.find((f) => {
+            return f.title === Object.keys(field)[0]
+         })._id;
          const value = field[Object.keys(field)[0]];
-
          return {
             fieldRef: fieldId,
             value: valueFormatter(value)
          };
       });
 
-      console.log(data)
-
-      const createdItem = await itemApi.create(data);
-      navigate(`/item/${createdItem._id}`);
+      if (id) {
+         const updatedCollection = await itemApi.update(data, id);
+         navigate(`/item/${updatedCollection._id}`);
+      } else {
+         const createdItem = await itemApi.create(data);
+         console.log(createdItem)
+         navigate(`/item/${createdItem._id}`);
+      }
    };
 
    React.useEffect(() => {
-      fetchCollections();
-   }, [fetchCollections, setValue, collectionId]);
+      reset();
+      setFields([]);
+      fetchData();
+   }, [fetchData, reset]);
 
    React.useEffect(() => {
       if (collectionId) {
@@ -108,10 +134,11 @@ const ItemEditor = ({ collectionId, userId }) => {
             >
                <TextField
                   fullWidth
-                  label={intl.formatMessage({ id: 'item-editor.title-label' })}
+                  placeholder={intl.formatMessage({ id: 'item-editor.title-placeholder' })}
                   variant='standard'
                   error={Boolean(errors?.title)}
                   {...register('title', { required: true })}
+                  defaultValue={getValues('title')}
                />
 
                <NativeSelect
