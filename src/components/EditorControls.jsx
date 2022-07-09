@@ -16,14 +16,14 @@ const EditorControls = () => {
             variant='contained'
             type='submit'
          >
-            <FormattedMessage id='collection-editor.save-button' />
+            <FormattedMessage id='editor.save-button' />
          </Button>
 
          <Button
             size='small'
             onClick={goBack}
          >
-            <FormattedMessage id='collection-editor.cancell-button' />
+            <FormattedMessage id='editor.cancell-button' />
          </Button>
       </Stack>
    );

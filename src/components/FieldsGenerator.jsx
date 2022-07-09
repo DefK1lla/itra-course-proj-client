@@ -15,7 +15,7 @@ const FieldsGenerator = ({ fields, append, remove, register, errors, control, fi
             variant='body'
             component='p'
          >
-            Need more fields?                        
+            <FormattedMessage id='collection-editor.field-need-more' />                       
          </Typography>
 
          <Button
@@ -25,7 +25,7 @@ const FieldsGenerator = ({ fields, append, remove, register, errors, control, fi
               append({ type: 'selectType', title: '' });
             }}
          >
-            Add field
+            <FormattedMessage id='collection-editor.field-add-button' />
          </Button>
 
          {fields.map((item, index) => {

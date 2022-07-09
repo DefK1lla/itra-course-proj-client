@@ -57,17 +57,18 @@ const Item = () => {
                />
             }
 
-            <Paper
-               sx={{
-                  p: 2
-               }}
-            >
-               {item.tags.length !== 0 &&
+            {item.tags.length !== 0 &&
+               <Paper
+                  sx={{
+                     p: 2
+                  }}
+               >
+
                   <TagCloud 
                      tags={item.tags}
                   />
-               }
-            </Paper>
+               </Paper>
+            }
          </Stack>
       </Container>
    );

@@ -49,8 +49,6 @@
    "collection-editor.title-placeholder": "Введите название...",
    "collection-editor.field-theme-placeholder": "Выберите тему",
    "collection-editor.description-placeholder": "Введите описание...",
-   "collection-editor.save-button": "Сохранить",
-   "collection-editor.cancell-button": "Отмена",
    "collection-editor.field-type-text": "Однострочный текст",
    "collection-editor.field-type-textarea": "Многострочный текст",
    "collection-editor.field-type-date": "Дата",
@@ -58,6 +56,8 @@
    "collection-editor.field-type-number": "Число",
    "collection-editor.field-type-placeholder": "Выберите тип",
    "collection-editor.field-title-placeholder": "Введите название...",
+   "collection-editor.field-need-more": "Нужно больше полей?",
+   "collection-editor.field-add-button": "Добавить поле",
    "collection-editor.field-delete-button": "Удалить",
    "collection-editor.file-upload": "Загрузить изображение",
    "collection-editor.file-uploaded": "Изображение загружено",
@@ -67,5 +67,10 @@
    "collection-card.user": "Пользователь",
    "collection-card.items-count": "Количество айтемов",
    "item-editor.title-placeholder": "Название",
-   "item-editor.collection-placeholder": "Выберите коллекцию"
+   "item-editor.collection-placeholder": "Выберите коллекцию",
+   "item-editor.tags-placeholder": "Теги",
+   "editor.save-button": "Сохранить",
+   "editor.cancell-button": "Отмена",
+   "item-card.user": "Пользователь",
+   "item-card.collection": "Коллекция"
 }

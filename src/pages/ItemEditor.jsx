@@ -198,7 +198,7 @@ const ItemEditor = ({ collectionId, userId }) => {
                   renderInput={params => (
                     <TextField
                         {...params}
-                        placeholder='Tags'
+                        placeholder={intl.formatMessage({ id: 'item-editor.tags-placeholder' })}
                         variant='standard'
                         onChange={handleTagChange}
                     />

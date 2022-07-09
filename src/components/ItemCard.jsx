@@ -5,11 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { 
    Card, 
    CardHeader, 
-   CardMedia, 
    CardContent,  
    Typography,
    CardActions,
-   Box,
    useTheme  
 } from '@mui/material';
 
@@ -34,7 +32,7 @@ const ItemCard = ({ title, user, collection, createdTimestamp }) => {
                   color='text.secondary'
                   component='div'
                >
-                  User: 
+                  <FormattedMessage id='item-card.user' />: 
                   <Link 
                      style={{
                         color: theme.palette.info.main,
@@ -54,7 +52,7 @@ const ItemCard = ({ title, user, collection, createdTimestamp }) => {
                      ml: '0!important'
                   }}
                >
-                  Collection: 
+                  <FormattedMessage id='item-card.collection' />: 
                   <Link 
                      style={{
                         color: theme.palette.info.main,
