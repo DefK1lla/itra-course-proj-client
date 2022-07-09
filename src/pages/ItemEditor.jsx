@@ -60,12 +60,16 @@ const ItemEditor = ({ collectionId, userId }) => {
          const item = await itemApi.getForEdit(id);
          setValue('title', item.title);
          setValue('collectionRef', item.collectionRef);
-         setFields(item.fields?.map(field => {
-            return {
-               ...field.fieldRef,
-               value: field.value
-            }
-         }));
+         setTags(item.tags);
+
+         await fetchFields(item.collectionRef);
+         setFields(prevState => prevState.map(field => {
+               return {
+                  ...field,
+                  value: item.fields.find(itemField => itemField.fieldRef._id === field._id).value
+               };
+            })
+         );
       }
 
    }, [setValue, id]);
@@ -92,17 +96,13 @@ const ItemEditor = ({ collectionId, userId }) => {
    const onSubmit = async (data) => {
       data.tags = tags;
       data.fields = data.fields?.map(field => {
-         const fieldId = fields.find((f) => {
-            return f.title === Object.keys(field)[0]
-         })._id;
+         const fieldId = fields.find(f => f.title === Object.keys(field)[0])._id;
          const value = field[Object.keys(field)[0]];
          return {
             fieldRef: fieldId,
             value: valueFormatter(value)
          };
       });
-
-      console.log(data.tags)
 
       if (id) {
          const updatedCollection = await itemApi.update(data, id);
@@ -191,6 +191,7 @@ const ItemEditor = ({ collectionId, userId }) => {
                   freeSolo
                   options={options.map(option => option.title) || []}
                   filterOptions={option => option }
+                  value={tags}
                   onChange={(e, value) => setTags(value)}
                   renderTags={(value, getTagProps) =>
                     value.map((option, index) => (
