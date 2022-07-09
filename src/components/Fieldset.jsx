@@ -48,7 +48,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                         key={field._id}
                         name={`fields[${index}].${field.title}`} 
                         control={control} 
-                        defaultValue={field.value}
+                        defaultValue={field.value || new Date()}
                         render={(props) => 
                            <LocalizationProvider 
                               dateAdapter={AdapterDateFns}
