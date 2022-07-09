@@ -129,8 +129,6 @@ const CollectionEditor = ({ userId }) => {
       data.userRef = userId || UserState.userData._id;
 
       const { fields, ...newCollection } = data;
-      console.log(newCollection)
-      console.log(UserState.userData._id)
 
       if (id) {
          console.log(newCollection)

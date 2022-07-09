@@ -6,7 +6,6 @@ import { Stack, Typography, Button, NativeSelect, TextField } from '@mui/materia
 
 const FieldsGenerator = ({ fields, append, remove, register, errors, control, fieldTypes }) => {
    const intl = useIntl();
-   console.log(fields)
    return (
       <Stack
          spacing={2}

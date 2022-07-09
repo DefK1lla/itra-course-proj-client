@@ -9,6 +9,8 @@ import {
    Paper, 
    TextField, 
    NativeSelect, 
+   Autocomplete,
+   Chip,
    Stack, 
 } from '@mui/material';
 
@@ -17,6 +19,7 @@ import UserState from '../store/UserState';
 
 import collectionApi from '../http/collectionAPI';
 import itemApi from '../http/itemAPI';
+import tagApi from '../http/tagApi';
 
 import EditorControls from '../components/EditorControls';
 import Fieldset from '../components/Fieldset';
@@ -28,6 +31,8 @@ const ItemEditor = ({ collectionId, userId }) => {
 
    const [collections, setCollections] = React.useState([]);
    const [fields, setFields] = React.useState([]);
+   const [options, setOptions] = React.useState([]);
+   const [tags, setTags] = React.useState([]);
 
    const { 
       register, 
@@ -55,26 +60,29 @@ const ItemEditor = ({ collectionId, userId }) => {
          const item = await itemApi.getForEdit(id);
          setValue('title', item.title);
          setValue('collectionRef', item.collectionRef);
-
-         const newFields = item.fields.map(field => {
-
+         setFields(item.fields?.map(field => {
             return {
                ...field.fieldRef,
                value: field.value
             }
-         });
-
-         setFields(newFields)
+         }));
       }
 
    }, [setValue, id]);
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
-      setFields(fields);
+      setFields(fields ? fields : []);
    };
 
    const handleCollectionChange = (event) => fetchFields(event.target.value);
+   
+   const handleTagChange = async (event) => {
+      if (event.target.value) {
+         const tags = await tagApi.autocomplete(event.target.value);
+         setOptions(tags);
+      }
+   };
 
    const valueFormatter = (value) => {
       if (value instanceof Date) return value.toLocaleDateString();
@@ -82,7 +90,7 @@ const ItemEditor = ({ collectionId, userId }) => {
    };
 
    const onSubmit = async (data) => {
-      console.log(fields)
+      data.tags = tags;
       data.fields = data.fields?.map(field => {
          const fieldId = fields.find((f) => {
             return f.title === Object.keys(field)[0]
@@ -94,12 +102,13 @@ const ItemEditor = ({ collectionId, userId }) => {
          };
       });
 
+      console.log(data.tags)
+
       if (id) {
          const updatedCollection = await itemApi.update(data, id);
          navigate(`/item/${updatedCollection._id}`);
       } else {
          const createdItem = await itemApi.create(data);
-         console.log(createdItem)
          navigate(`/item/${createdItem._id}`);
       }
    };
@@ -115,7 +124,7 @@ const ItemEditor = ({ collectionId, userId }) => {
          setValue('collectionRef', collectionId);
          fetchFields(collectionId);
       }
-   }, [collections, setValue, collectionId]);
+   }, [setValue, collectionId]);
 
    return (
       <Container>
@@ -177,6 +186,26 @@ const ItemEditor = ({ collectionId, userId }) => {
                   />
                }
 
+               <Autocomplete
+                  multiple
+                  freeSolo
+                  options={options.map(option => option.title) || []}
+                  filterOptions={option => option }
+                  onChange={(e, value) => setTags(value)}
+                  renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                      <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                    ))
+                  }
+                  renderInput={params => (
+                    <TextField
+                        {...params}
+                        placeholder='Tags'
+                        variant='standard'
+                        onChange={handleTagChange}
+                    />
+                  )}
+               />
                <EditorControls />
             </Stack>
          </Paper>
