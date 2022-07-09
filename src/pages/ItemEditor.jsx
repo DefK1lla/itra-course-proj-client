@@ -88,11 +88,6 @@ const ItemEditor = ({ collectionId, userId }) => {
       }
    };
 
-   const valueFormatter = (value) => {
-      if (value instanceof Date) return value.toLocaleDateString();
-      return value;
-   };
-
    const onSubmit = async (data) => {
       data.tags = tags;
       data.fields = data.fields?.map(field => {
@@ -100,7 +95,7 @@ const ItemEditor = ({ collectionId, userId }) => {
          const value = field[Object.keys(field)[0]];
          return {
             fieldRef: fieldId,
-            value: valueFormatter(value)
+            value: value
          };
       });
 
@@ -108,6 +103,7 @@ const ItemEditor = ({ collectionId, userId }) => {
          const updatedCollection = await itemApi.update(data, id);
          navigate(`/item/${updatedCollection._id}`);
       } else {
+         data.userRef = userId || UserState.userData._id;
          const createdItem = await itemApi.create(data);
          navigate(`/item/${createdItem._id}`);
       }
@@ -115,6 +111,7 @@ const ItemEditor = ({ collectionId, userId }) => {
 
    React.useEffect(() => {
       reset();
+      setTags([]);
       setFields([]);
       fetchData();
    }, [fetchData, reset]);

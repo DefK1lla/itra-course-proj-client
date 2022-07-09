@@ -37,16 +37,16 @@ const FullCollection = ({ collection, isLoading }) => {
 
             {collection.imgSrc &&
                <CardMedia
-                  component="img"
-                  width="100%"
+                  component='img'
+                  width='100%'
                   image={collection.imgSrc}
                />
             }
 
             <CardActions>
                <Typography 
-                  variant="body2" 
-                  color="text.secondary"
+                  variant='body2' 
+                  color='text.secondary'
                >
                   <FormattedMessage id='collection-card.user' />: 
                   <Link 
@@ -75,8 +75,9 @@ const FullCollection = ({ collection, isLoading }) => {
                </Typography>
 
                <Typography 
-                  variant="caption" 
-                  color="text.secondary">
+                  variant='caption' 
+                  color='text.secondary'
+               >
                   <FormattedMessage id='collection-card.theme' />: {collection.theme}
                </Typography>
             </Box>

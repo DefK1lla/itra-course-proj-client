@@ -48,7 +48,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                         key={field._id}
                         name={`fields[${index}].${field.title}`} 
                         control={control} 
-                        defaultValue={field.value ? new Date(field.value) : new Date()}
+                        defaultValue={field.value}
                         render={(props) => 
                            <LocalizationProvider 
                               dateAdapter={AdapterDateFns}
@@ -56,8 +56,6 @@ const Fieldset = ({ fields, register, control, errors }) => {
                            > 
                               <DesktopDatePicker
                                  {...props.field}
-
-                                 defaultValue={new Date()}
                                  label={field.title}
                                  inputFormat="dd.MM.yyyy"
                                  renderInput={(props) => 

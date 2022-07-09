@@ -126,15 +126,14 @@ const CollectionEditor = ({ userId }) => {
       data.themeRef = themes.find(theme => 
          theme.title[SettingsState.locale] === data.theme
       )._id;
-      data.userRef = userId || UserState.userData._id;
 
       const { fields, ...newCollection } = data;
 
       if (id) {
-         console.log(newCollection)
          const updatedCollection = await collectionApi.update(id, newCollection, fields);
          navigate(`/collection/${updatedCollection._id}`);
       } else {
+         data.userRef = userId || UserState.userData._id;
          const createdCollection = await collectionApi.create(newCollection, fields);
          navigate(`/collection/${createdCollection._id}`);
       }

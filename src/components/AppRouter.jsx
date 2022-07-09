@@ -12,6 +12,7 @@ import User from '../pages/User';
 import CollectionEditor from '../pages/CollectionEditor';
 import Collection from '../pages/Collection';
 import ItemEditor from '../pages/ItemEditor';
+import Item from '../pages/Item';
 
 
 
@@ -21,6 +22,7 @@ const AppRouter = () => {
          <Route exact path='/' element={<Feed />} />
          <Route exact path='/user/:id' element={<User />} />
          <Route exact path='/collection/:id' element={<Collection />} />
+         <Route exact path='/item/:id' element={<Item />} />
          <Route
             exact
             path='/signin'

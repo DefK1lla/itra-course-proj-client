@@ -18,6 +18,12 @@ class ItemApi {
 
       return response.data;
    };
+
+   getOne = async (id) => {
+      const response = await $host.get(`item/${id}`);
+   
+      return response.data;
+   };
 }
 
 export default new ItemApi();
