@@ -19,7 +19,6 @@ import UserState from '../store/UserState';
 
 import collectionApi from '../http/collectionAPI';
 
-import Loading from './Loading';
 import CardMenu from '../components/CardMenu';
 
 const FullCollection = ({ collection, isLoading }) => {
@@ -30,8 +29,6 @@ const FullCollection = ({ collection, isLoading }) => {
       await collectionApi.delete(collection._id);
       navigate(`/user/${collection.userRef._id}`);
    };
-
-   if (isLoading) return <Loading />;
 
    return (
       <Card 

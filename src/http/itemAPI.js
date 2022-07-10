@@ -20,11 +20,16 @@ class ItemApi {
    };
 
    getOne = async (id, userId) => {
-      console.log(userId)
       const response = await $host.get(`item/${id}`, { params: { userId } });
    
       return response.data;
    };
+
+   deleteOne = async (id) => {
+      const response = await $authHost.delete(`item/${id}`);
+   
+      return response.data;
+   }
 
    like = async (itemId) => {
       const response = await $authHost.post(`item/${itemId}/like`);
@@ -36,7 +41,7 @@ class ItemApi {
       const response = await $authHost.delete(`item/${itemId}/like`);
 
       return response.data;
-   }
+   };
 }
 
 export default new ItemApi();

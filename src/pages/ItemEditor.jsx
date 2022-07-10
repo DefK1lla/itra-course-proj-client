@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
  
 import { 
@@ -24,10 +24,14 @@ import tagApi from '../http/tagAPI';
 import EditorControls from '../components/EditorControls';
 import Fieldset from '../components/Fieldset';
 
-const ItemEditor = ({ collectionId, userId }) => {
+const ItemEditor = () => {
    const intl = useIntl();
    const { id } = useParams();
    const navigate = useNavigate();
+   const location = useLocation();
+   
+   const userId = location.state?.userId;
+   const collectionId = location.state?.collectionId;
 
    const [collections, setCollections] = React.useState([]);
    const [fields, setFields] = React.useState([]);
@@ -66,7 +70,7 @@ const ItemEditor = ({ collectionId, userId }) => {
          setFields(prevState => prevState.map(field => {
                return {
                   ...field,
-                  value: item.fields.find(itemField => itemField.fieldRef._id === field._id).value
+                  value: item.fields.find(itemField => itemField.fieldRef._id === field._id)?.value
                };
             })
          );
@@ -76,6 +80,7 @@ const ItemEditor = ({ collectionId, userId }) => {
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
+      console.log(fields)
       setFields(fields ? fields : []);
    };
 
@@ -90,14 +95,17 @@ const ItemEditor = ({ collectionId, userId }) => {
 
    const onSubmit = async (data) => {
       data.tags = tags;
-      data.fields = data.fields?.map(field => {
-         const fieldId = fields.find(f => f.title === Object.keys(field)[0])._id;
-         const value = field[Object.keys(field)[0]];
-         return {
-            fieldRef: fieldId,
-            value: value
-         };
-      });
+
+      if (fields) {
+         data.fields = data.fields.map(field => {
+            const fieldId = fields.find(f => f.title === Object.keys(field)[0])._id;
+            const value = field[Object.keys(field)[0]];
+            return {
+               fieldRef: fieldId,
+               value: value
+            };
+         });
+      }
 
       if (id) {
          const updatedCollection = await itemApi.update(data, id);
@@ -114,14 +122,12 @@ const ItemEditor = ({ collectionId, userId }) => {
       setTags([]);
       setFields([]);
       fetchData();
-   }, [fetchData, reset]);
 
-   React.useEffect(() => {
       if (collectionId) {
          setValue('collectionRef', collectionId);
          fetchFields(collectionId);
       }
-   }, [setValue, collectionId]);
+   }, [fetchData, reset, setValue, collectionId]);
 
    return (
       <Container>

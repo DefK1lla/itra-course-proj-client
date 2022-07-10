@@ -38,7 +38,8 @@ const CollectionCard = ({ collection, setCollections }) => {
                <Link
                   to={`/collection/${collection._id}`}
                   style={{
-                     color: theme.palette.text.primary,
+                     textDecoration: 'none',
+                     color: theme.palette.info.main,
                   }}
                >
                   {collection.title}

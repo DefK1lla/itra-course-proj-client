@@ -56,7 +56,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                            > 
                               <DesktopDatePicker
                                  {...props.field}
-                                 placeholder={field.title}
+                                 label={field.title}
                                  inputFormat="dd.MM.yyyy"
                                  renderInput={(props) => 
                                     <TextField
@@ -76,7 +76,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                   return (
                      <TextField
                         key={field._id}
-                        placeholder={field.title}
+                        label={field.title}
                         multiline
                         rows={10}
                         variant="standard"
@@ -93,7 +93,7 @@ const Fieldset = ({ fields, register, control, errors }) => {
                return (
                   <TextField
                      key={field._id}
-                     placeholder={field.title}
+                     label={field.title}
                      type={field.type}
                      rows={10}
                      variant='standard'

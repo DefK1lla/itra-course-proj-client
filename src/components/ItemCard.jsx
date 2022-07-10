@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -20,9 +20,12 @@ import UserState from '../store/UserState';
 
 import itemApi from '../http/itemAPI';
 
+import CardMenu from '../components/CardMenu';
+
 const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTimestamp }) => {
    const theme = useTheme();
    const intl = useIntl();
+   const navigate = useNavigate();
 
    const [like, setLike] = React.useState(isLiked);
    const [likes, setLikes] = React.useState(likesCount);
@@ -37,7 +40,12 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
          setLikes(prevState => prevState-1);
          itemApi.dislike(id);
       }
-   }
+   };
+
+   const handleDeleteClick = (event) => {
+      itemApi.deleteOne(id);
+      navigate(`/collection/${collection._id}`);
+   };
 
    return (
       <Card
@@ -68,6 +76,13 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
             <CardHeader
               title={title}
               subheader={new Date(createdTimestamp).toLocaleDateString()}
+              action={
+               (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+                  <CardMenu 
+                     onDeleteClick={handleDeleteClick}
+                     editLink={`/item/${id}/edit`}
+                  />
+               }
             />
 
             <CardActions

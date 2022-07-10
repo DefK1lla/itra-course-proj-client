@@ -1,4 +1,3 @@
-
 import { Paper, Box, Stack, Typography, Checkbox } from '@mui/material';
 
 const ItemInfo = ({ fields }) => {
