@@ -112,7 +112,6 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
                      {collection.title}
                   </Link>
                </Typography>
-
             </CardActions>
          </CardContent>  
       </Card>
