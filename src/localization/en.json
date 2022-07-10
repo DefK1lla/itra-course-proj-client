@@ -72,5 +72,6 @@
    "editor.save-button": "Save",
    "editor.cancell-button": "Cancell",
    "item-card.user": "User",
-   "item-card.collection": "Collection"
+   "item-card.collection": "Collection",
+   "item-card.likes-count": "Likes"
 }

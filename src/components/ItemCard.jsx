@@ -1,6 +1,7 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { 
    Card, 
@@ -8,13 +9,61 @@ import {
    CardContent,  
    Typography,
    CardActions,
+   FormControlLabel,
+   Checkbox,
    useTheme  
 } from '@mui/material';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 
-const ItemCard = ({ title, user, collection, createdTimestamp }) => {
+import UserState from '../store/UserState';
+
+import itemApi from '../http/itemAPI';
+
+const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTimestamp }) => {
    const theme = useTheme();
+   const intl = useIntl();
+
+   const [like, setLike] = React.useState(isLiked);
+   const [likes, setLikes] = React.useState(likesCount);
+
+   const hendleLikeClick = (event) => {
+      setLike(prevState => !prevState);
+
+      if (!like) {
+         setLikes(prevState => prevState+1);
+         itemApi.like(id);
+      } else {
+         setLikes(prevState => prevState-1);
+         itemApi.dislike(id);
+      }
+   }
+
    return (
-      <Card>
+      <Card
+         sx={{
+            position: 'relative'
+         }}
+      >
+         <FormControlLabel
+            sx={{
+               position: 'absolute',
+               bottom: 5,
+               right: 15
+            }}
+            label={likes + ' ' + intl.formatMessage({ id: 'item-card.likes-count' })}
+            labelPlacement='start'
+            control={
+               <Checkbox  
+                  icon={<FavoriteBorder />} 
+                  checkedIcon={<Favorite />}
+                  onChange={hendleLikeClick}
+                  disabled={!UserState.isAuth}
+                  checked={like}
+               />
+            } 
+         />
+
          <CardContent>
             <CardHeader
               title={title}

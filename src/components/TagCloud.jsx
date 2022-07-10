@@ -8,6 +8,7 @@ const TagCloud = ({ tags }) => {
       >
          {tags.map(tag => 
             <Grid
+               key={tag}
                item
             >
                <Chip 

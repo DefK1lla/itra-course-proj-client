@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Container, Paper, Stack } from '@mui/material';
 
+import UserState from '../store/UserState';
+
 import itemApi from '../http/itemAPI';
 
 import Loading from '../components/Loading';
@@ -20,7 +22,7 @@ const Item = () => {
    const fetchItem = React.useCallback(async () => {
       try {
          setIsLoading(true);
-         const item = await itemApi.getOne(id);
+         const item = await itemApi.getOne(id, UserState.userData?._id);
          setItem(item);
          setIsLoading(false);
       } catch (e) {
@@ -45,10 +47,13 @@ const Item = () => {
             spacing={3}
          >
             <ItemCard 
+               id={item._id}
                title={item.title}
                user={item.userRef}
                collection={item.collectionRef}
                createdTimestamp={item.timestamp}
+               likesCount={item.likesCount}
+               isLiked={item.isLiked}
             />
 
             {item.fields.length !== 0 &&

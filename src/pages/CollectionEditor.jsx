@@ -127,14 +127,13 @@ const CollectionEditor = ({ userId }) => {
          theme.title[SettingsState.locale] === data.theme
       )._id;
 
-      const { fields, ...newCollection } = data;
-
+      const { fields, ...collection } = data;
       if (id) {
-         const updatedCollection = await collectionApi.update(id, newCollection, fields);
+         const updatedCollection = await collectionApi.update(id, collection, fields);
          navigate(`/collection/${updatedCollection._id}`);
       } else {
-         data.userRef = userId || UserState.userData._id;
-         const createdCollection = await collectionApi.create(newCollection, fields);
+         collection.userRef = userId || UserState.userData._id;
+         const createdCollection = await collectionApi.create(collection, fields);
          navigate(`/collection/${createdCollection._id}`);
       }
    };

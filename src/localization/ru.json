@@ -72,5 +72,6 @@
    "editor.save-button": "Сохранить",
    "editor.cancell-button": "Отмена",
    "item-card.user": "Пользователь",
-   "item-card.collection": "Коллекция"
+   "item-card.collection": "Коллекция",
+   "item-card.likes-count": "Отметок нравится"
 }

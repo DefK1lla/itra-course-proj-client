@@ -19,7 +19,7 @@ import UserState from '../store/UserState';
 
 import collectionApi from '../http/collectionAPI';
 import itemApi from '../http/itemAPI';
-import tagApi from '../http/tagApi';
+import tagApi from '../http/tagAPI';
 
 import EditorControls from '../components/EditorControls';
 import Fieldset from '../components/Fieldset';
