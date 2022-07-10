@@ -36,6 +36,12 @@ class CollectionApi {
 
       return response.data;
    };
+
+   delete = async (id) => {
+      const response = await $authHost.delete(`collection/${id}`);
+
+      return response.data;
+   };
 }
 
 export default new CollectionApi();

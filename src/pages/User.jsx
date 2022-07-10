@@ -1,16 +1,19 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography, Button } from '@mui/material';
+
+import UserState from '../store/UserState';
+
+import userApi from '../http/userAPI';
+import collectionApi from '../http/collectionAPI';
 
 import CollectionCard from '../components/CollectionCard';
 import Loading from '../components/Loading';
 import UserCard from '../components/UserCard';
-
-import userApi from '../http/userAPI';
-import collectionApi from '../http/collectionAPI';
 
 
 const User = () => {
@@ -23,6 +26,7 @@ const User = () => {
 
    const fetchData = React.useCallback(async () => {
       try {
+         setIsLoading(true);
          const user = await userApi.getOne(id);
          const collections = await collectionApi.getUserCollections(id);
          setUser(user);
@@ -50,6 +54,18 @@ const User = () => {
             user={user}
          />
 
+         {(UserState.userData?._id === user._id || UserState.userData?.role === 'ADMIN') && 
+            <Button
+               component={Link}
+               to='/add-collection'
+               state={{
+                  userId: user._id
+               }}               
+            >
+               <FormattedMessage id='user-page.add-collection-btn' />
+            </Button>
+         }
+
          {collections.length 
             ?  <Grid 
                   container
@@ -72,6 +88,7 @@ const User = () => {
                         >
                            <CollectionCard
                               collection={col}
+                              setCollections={setCollections}
                            />
                         </Grid>
                      );

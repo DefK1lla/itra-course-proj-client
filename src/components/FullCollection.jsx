@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { 
@@ -15,10 +15,21 @@ import {
 } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 
+import UserState from '../store/UserState';
+
+import collectionApi from '../http/collectionAPI';
+
 import Loading from './Loading';
+import CardMenu from '../components/CardMenu';
 
 const FullCollection = ({ collection, isLoading }) => {
    const theme = useTheme();
+   const navigate = useNavigate();
+
+   const handleDeleteClick = async (event) => {
+      await collectionApi.delete(collection._id);
+      navigate(`/user/${collection.userRef._id}`);
+   };
 
    if (isLoading) return <Loading />;
 
@@ -33,6 +44,13 @@ const FullCollection = ({ collection, isLoading }) => {
             <CardHeader
               title={collection.title}
               subheader={new Date(collection.timestamp).toLocaleDateString()}
+              action={
+               (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+                  <CardMenu 
+                     onDeleteClick={handleDeleteClick}
+                     editLink={`/collection/${collection._id}/edit`}
+                  />
+               }
             />
 
             {collection.imgSrc &&

@@ -1,10 +1,10 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FormattedMessage } from 'react-intl';
 
 import { 
    Card, 
-   CardActionArea, 
    CardHeader, 
    CardMedia, 
    CardContent, 
@@ -13,8 +13,19 @@ import {
    useTheme  
 } from '@mui/material';
 
-const CollectionCard = ({ collection }) => {
+import UserState from '../store/UserState';
+
+import collectionApi from '../http/collectionAPI';
+
+import CardMenu from '../components/CardMenu';
+
+const CollectionCard = ({ collection, setCollections }) => {
    const theme = useTheme();
+
+   const handleDeleteClick = (event) => {
+      collectionApi.delete(collection._id);
+      setCollections(prevState => prevState.filter(item => item._id !== collection._id));
+   };
 
    return(
       <Card 
@@ -22,47 +33,53 @@ const CollectionCard = ({ collection }) => {
             width: '100%'
          }}
       >
-         <Link
-            to={`/collection/${collection._id}`}
-            style={{
-               textDecoration: 'none',
-               color: theme.palette.text.primary,
-            }}
-         >
-            <CardActionArea>
-               <CardHeader
-                 title={collection.title}
-                 subheader={new Date(collection.timestamp).toLocaleDateString()}
+         <CardHeader
+            title={
+               <Link
+                  to={`/collection/${collection._id}`}
+                  style={{
+                     color: theme.palette.text.primary,
+                  }}
+               >
+                  {collection.title}
+               </Link>
+           }
+           subheader={new Date(collection.timestamp).toLocaleDateString()}
+           action={
+            (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+               <CardMenu 
+                  onDeleteClick={handleDeleteClick}
+                  editLink={`/collection/${collection._id}/edit`}
                />
+            }
+         />
 
-               {collection.imgSrc &&
-                  <CardMedia
-                     component="img"
-                     width="100%"
-                     image={collection.imgSrc}
-                  />
-               }
+         {collection.imgSrc &&
+            <CardMedia
+               component="img"
+               width="100%"
+               image={collection.imgSrc}
+            />
+         }
 
-               <CardContent>
-                  <Typography 
-                     variant='caption'
-                     component='div'
-                     color='text.secondary'
-                     gutterBottom 
-                  >
-                     <FormattedMessage id='collection-card.theme' />: {collection.theme}
-                  </Typography>
+         <CardContent>
+            <Typography 
+               variant='caption'
+               component='div'
+               color='text.secondary'
+               gutterBottom 
+            >
+               <FormattedMessage id='collection-card.theme' />: {collection.theme}
+            </Typography>
 
-                  <Typography 
-                     variant='caption' 
-                     component='div'
-                     color='text.secondary'
-                  >
-                     <FormattedMessage id='collection-card.items-count' />: {collection.itemsCount}
-                  </Typography>
-               </CardContent>  
-            </CardActionArea>
-         </Link>  
+            <Typography 
+               variant='caption' 
+               component='div'
+               color='text.secondary'
+            >
+               <FormattedMessage id='collection-card.items-count' />: {collection.itemsCount}
+            </Typography>
+         </CardContent>  
          <CardActions>
             <Typography 
                variant="body2" 

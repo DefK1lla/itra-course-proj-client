@@ -6,34 +6,51 @@ import { observer } from "mobx-react-lite";
 import { Box, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import SettingsState from '../store/SettingsState';
 import UserState from '../store/UserState';
 
 const NavBar = observer(() => {
    const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+   const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+   };
+
+   const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+   };
+
    const pages = UserState.isAuth ? [{
       title: <FormattedMessage id='nav.profile' />,
-      path: `/user/${UserState.userData._id}`
+      path: `/user/${UserState.userData._id}`,
+      onClick: handleCloseNavMenu
    }, {
       title: <FormattedMessage id='nav.add-collection' />,
-      path: '/add-collection'
+      path: '/add-collection',
+      onClick: handleCloseNavMenu
    }, {
       title: <FormattedMessage id='nav.add-item' />,
-      path: '/add-item'
+      path: '/add-item',
+      onClick: handleCloseNavMenu
    }, {
       title: <FormattedMessage id='nav.logout' />,
       path: '/signin',
-      onClick: () => UserState.logout()
+      onClick: () => { 
+         UserState.logout();
+         handleCloseNavMenu();
+      }
    }]
       : UserState.isAuth === false ? [{
          title: <FormattedMessage id='nav.home' />,
-         path: '/'
+         path: '/',
+         onClick: handleCloseNavMenu
       }, {
          title: <FormattedMessage id='nav.signin' />,
-         path: '/signin'
+         path: '/signin',
+         onClick: handleCloseNavMenu
       }, {
          title: <FormattedMessage id='nav.signup' />,
-         path: '/signup'
+         path: '/signup',
+         onClick: handleCloseNavMenu
       }]
          : [];
 
@@ -44,13 +61,6 @@ const NavBar = observer(() => {
       });
    }
 
-   const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
-   };
-
-   const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
-   };
 
    return (
       <Box>
@@ -95,34 +105,21 @@ const NavBar = observer(() => {
                }}
             >
                <MenuItem
+                  component={Link}
+                  to='/'
                   onClick={handleCloseNavMenu}
                >
-                  <Link
-                     style={{
-                           textDecoration: 'none',
-                           color: SettingsState.mode === 'dark' ? '#fff' : '#000'
-                     }}
-                     to='/'
-                  >
-                     <FormattedMessage id='nav.home' />
-                  </Link>
+                  <FormattedMessage id='nav.home' />
                </MenuItem>
 
                {pages.map((page) => (
                   <MenuItem
                      key={page.path}
-                     onClick={handleCloseNavMenu}
+                     component={Link}
+                     to={page.path}
+                     onClick={page.onClick}
                   >
-                     <Link
-                        style={{
-                           textDecoration: 'none',
-                           color: SettingsState.mode === 'dark' ? '#fff' : '#000'
-                        }}
-                        to={page.path}
-                        onClick={page.onClick}
-                     >
-                        {page.title}
-                     </Link>
+                     {page.title}
                   </MenuItem>
                ))}
             </Menu>
@@ -138,25 +135,19 @@ const NavBar = observer(() => {
             }}
          >
             {pages.map((page) => (
-               <Link
-                  style={{
-                     textDecoration: 'none'
+               <Button
+                  sx={{
+                     my: 2,
+                     color: 'white',
+                     display: 'block'
                   }}
                   key={page.path}
+                  component={Link}
                   to={page.path}
                   onClick={page.onClick}
                >
-                  <Button
-                     sx={{
-                        my: 2,
-                        color: 'white',
-                        display: 'block'
-                     }}
-                     onClick={handleCloseNavMenu}
-                  >
-                     {page.title}
-                  </Button>
-               </Link>
+                  {page.title}
+               </Button>
             ))}
          </Box>
       </Box>

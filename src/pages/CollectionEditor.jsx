@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 
 import { 
@@ -26,7 +26,10 @@ import fileApi from '../http/fileAPI';
 import collectionApi from '../http/collectionAPI';
 import { getThemes } from '../http/themeAPI';
 
-const CollectionEditor = ({ userId }) => {
+const CollectionEditor = () => {
+   const location = useLocation();
+   const userId = location.state?.userId;
+
    const fieldTypes = ['text', 'textarea', 'checkbox', 'date', 'number'];
    const fileTypes = ['JPEG', 'JPG', 'PNG'];
 
