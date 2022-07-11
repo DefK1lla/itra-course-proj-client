@@ -46,6 +46,7 @@
    "admin-toolbar.block": "Заблокировать",
    "admin-toolbar.unblock": "Разблокировать",
    "toolbar.delete": "Удалить",
+   "toolbar.add" : "Добавить",
    "collection-editor.title-placeholder": "Введите название...",
    "collection-editor.field-theme-placeholder": "Выберите тему",
    "collection-editor.description-placeholder": "Введите описание...",
@@ -76,5 +77,11 @@
    "editor.cancell-button": "Отмена",
    "item-card.user": "Пользователь",
    "item-card.collection": "Коллекция",
-   "item-card.likes-count": "Отметок нравится"
+   "item-card.likes-count": "Отметок нравится",
+   "collection-page.add-item": "Добавить айтем",
+   "collection-page.item-table.title": "Название",
+   "collection-page.item-table.likes": "Отметок нравится",
+   "collection-page.item-table.date": "Дата создания",
+   "collection-page.item-table.link": "Ссылка",
+   "collection-page.item-table.now-rows": "Здесь пока ничего нет"
 }

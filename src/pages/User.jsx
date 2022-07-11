@@ -60,7 +60,11 @@ const User = () => {
                to='/add-collection'
                state={{
                   userId: user._id
-               }}               
+               }}
+               variant='contained'
+               sx={{
+                  mb: 2
+               }}
             >
                <FormattedMessage id='user-page.add-collection-btn' />
             </Button>

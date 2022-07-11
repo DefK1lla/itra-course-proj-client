@@ -26,10 +26,29 @@ class ItemApi {
    };
 
    deleteOne = async (id) => {
-      const response = await $authHost.delete(`item/${id}`);
+      const response = await $authHost.delete(`item/one/${id}`);
    
       return response.data;
-   }
+   };
+
+   deleteMany = async (ids) => {
+      const response = await $authHost.delete('item/many', { params: { ids } });
+   
+      return response.data;
+   };
+
+   getCollectionItems = async (collectionId, sortModel, page, rowsPerPage) => {
+      const response = await $host.get(`item/${collectionId}/collection`, {
+         params: {
+            orderBy: sortModel?.field,
+            order: sortModel?.sort,
+            page,
+            rowsPerPage
+         }
+      });
+   
+      return response.data;
+   };
 
    like = async (itemId) => {
       const response = await $authHost.post(`item/${itemId}/like`);

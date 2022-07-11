@@ -46,6 +46,8 @@ const FullCollection = ({ collection, isLoading }) => {
                   <CardMenu 
                      onDeleteClick={handleDeleteClick}
                      editLink={`/collection/${collection._id}/edit`}
+                     collectionId={collection._id}
+                     userId={collection.userRef._id}
                   />
                }
             />

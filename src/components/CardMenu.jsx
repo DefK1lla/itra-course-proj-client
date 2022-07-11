@@ -12,7 +12,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 
-const CardMenu = ({ editLink, onDeleteClick }) => {
+const CardMenu = ({ editLink, onDeleteClick, collectionId, userId }) => {
    const [anchorEl, setAnchorEl] = React.useState(null);
    const open = Boolean(anchorEl);
 
@@ -51,6 +51,19 @@ const CardMenu = ({ editLink, onDeleteClick }) => {
             >
                <FormattedMessage id='card-menu.delete' />
             </MenuItem>
+
+            {collectionId &&
+               <MenuItem
+               component={Link}
+               to={`/add-item`}
+               state={{
+                  userId,
+                  collectionId
+               }}
+            >
+               <FormattedMessage id='collection-page.add-item' />
+            </MenuItem>
+            }
          </Menu>
       </>
    );

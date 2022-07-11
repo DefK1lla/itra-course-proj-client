@@ -80,7 +80,6 @@ const ItemEditor = () => {
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
-      console.log(fields)
       setFields(fields ? fields : []);
    };
 
@@ -96,7 +95,7 @@ const ItemEditor = () => {
    const onSubmit = async (data) => {
       data.tags = tags;
 
-      if (fields) {
+      if (fields.length) {
          data.fields = data.fields.map(field => {
             const fieldId = fields.find(f => f.title === Object.keys(field)[0])._id;
             const value = field[Object.keys(field)[0]];

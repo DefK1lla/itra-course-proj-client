@@ -24,7 +24,6 @@ const Item = () => {
          setIsLoading(true);
          const item = await itemApi.getOne(id, UserState.userData?._id);
          setItem(item);
-         console.log(item)
          setIsLoading(false);
       } catch (e) {
          console.warn(e);
@@ -69,7 +68,6 @@ const Item = () => {
                      p: 2
                   }}
                >
-
                   <TagCloud 
                      tags={item.tags}
                   />

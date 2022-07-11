@@ -61,7 +61,7 @@ const AdminToolbar = React.memo(({ fetchUsers }) => {
    return (
       <GridToolbarContainer>
          <GridToolbarColumnsButton />
-         <GridToolbarDensitySelector />'
+         <GridToolbarDensitySelector />
          <GridToolbarExport 
             printOptions={{ disableToolbarButton: true }} 
             csvOptions={{

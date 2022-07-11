@@ -46,6 +46,7 @@
    "admin-toolbar.block": "Block",
    "admin-toolbar.unblock": "Unblock",
    "toolbar.delete": "Delete",
+   "toolbar.add" : "Add",
    "collection-editor.title-placeholder": "Enter the title...",
    "collection-editor.field-theme-placeholder": "Select theme",
    "collection-editor.description-placeholder": "Enter a description...",
@@ -76,5 +77,11 @@
    "editor.cancell-button": "Cancell",
    "item-card.user": "User",
    "item-card.collection": "Collection",
-   "item-card.likes-count": "Likes"
+   "item-card.likes-count": "Likes",
+   "collection-page.add-item": "Add item",
+   "collection-page.item-table.title": "Title",
+   "collection-page.item-table.likes": "Likes",
+   "collection-page.item-table.date": "Date of creation",
+   "collection-page.item-table.link": "Link",
+   "collection-page.item-table.now-rows": "There is nothing here yet"
 }
