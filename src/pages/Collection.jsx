@@ -7,6 +7,8 @@ import { Container, Button } from '@mui/material';
 
 import { DataGrid } from '@mui/x-data-grid';
 
+import UserState from '../store/UserState';
+
 import collectionApi from '../http/collectionAPI';
 import itemApi from '../http/itemAPI';
 
@@ -134,12 +136,14 @@ const Collection = () => {
             getRowId={row => row._id}
             rows={items}
             columns={columns}
-            checkboxSelection
+            checkboxSelection={
+               UserState.userData?._id === collection.userRef._id || UserState.userData?.role === 'ADMIN'
+            }
             disableColumnFilter
             pagination
             paginationMode='server'
             rowCount={itemsCount}
-            rowsPerPageOptions={[10, 15]}
+            rowsPerPageOptions={[10, 15, 100]}
             pageSize={rowsPerPage}
             onPageSizeChange={handlePageSizeChange}
             onPageChange={handlePageChange}
