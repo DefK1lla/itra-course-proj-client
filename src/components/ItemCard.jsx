@@ -42,8 +42,8 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
       }
    };
 
-   const handleDeleteClick = (event) => {
-      itemApi.deleteOne(id);
+   const handleDeleteClick = async (event) => {
+      await itemApi.deleteOne(id);
       navigate(`/collection/${collection._id}`);
    };
 
@@ -77,7 +77,7 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
               title={title}
               subheader={new Date(createdTimestamp).toLocaleDateString()}
               action={
-               (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+               (UserState.userData?._id === user._id || UserState.userData?.role === 'ADMIN') &&
                   <CardMenu 
                      onDeleteClick={handleDeleteClick}
                      editLink={`/item/${id}/edit`}

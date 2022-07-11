@@ -13,6 +13,12 @@ class ItemApi {
       return response.data;
    };
 
+   getLatest = async () => {
+      const response = await $host.get('item/latest');
+
+      return response.data;
+   };
+
    update = async (item, id) => {
       const response = await $authHost.put(`item/${id}`, item);
 

@@ -42,7 +42,7 @@ const FullCollection = ({ collection, isLoading }) => {
               title={collection.title}
               subheader={new Date(collection.timestamp).toLocaleDateString()}
               action={
-               (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+               (UserState.userData?._id === collection.userRef._id  || UserState.userData?.role === 'ADMIN') &&
                   <CardMenu 
                      onDeleteClick={handleDeleteClick}
                      editLink={`/collection/${collection._id}/edit`}

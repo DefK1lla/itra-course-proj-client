@@ -13,6 +13,12 @@ class CollectionApi {
       return response.data;
    };
 
+   getLargest = async () => {
+      const response = await $host.get(`collection/largest`);
+
+      return response.data;
+   }
+
    getUserCollections = async (userId) => {
       const response = await $host.get(`collection/user/${userId}`);
       

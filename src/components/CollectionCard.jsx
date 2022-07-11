@@ -38,6 +38,7 @@ const CollectionCard = ({ collection, setCollections }) => {
                <Link
                   to={`/collection/${collection._id}`}
                   style={{
+                     wordBreak: 'break-word',
                      textDecoration: 'none',
                      color: theme.palette.info.main,
                   }}
@@ -47,8 +48,12 @@ const CollectionCard = ({ collection, setCollections }) => {
            }
            subheader={new Date(collection.timestamp).toLocaleDateString()}
            action={
-            (UserState.userData?._id || UserState.userData?.role === 'ADMIN') &&
+            (UserState.userData?._id === collection.userRef._id || UserState.userData?.role === 'ADMIN') &&
                <CardMenu 
+                  sx={{
+                     position: 'relative',
+                     zIndex: '9999'
+                  }}
                   onDeleteClick={handleDeleteClick}
                   editLink={`/collection/${collection._id}/edit`}
                />

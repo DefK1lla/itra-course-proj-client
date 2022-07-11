@@ -6,6 +6,12 @@ class TagApi {
 
       return response.data;
    };
+
+   getAll = async (keyword) => {
+      const response = await $host.get('tag');
+
+      return response.data;
+   };
 }
 
 export default new TagApi();

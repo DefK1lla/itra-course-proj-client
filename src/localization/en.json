@@ -83,5 +83,9 @@
    "collection-page.item-table.likes": "Likes",
    "collection-page.item-table.date": "Date of creation",
    "collection-page.item-table.link": "Link",
-   "collection-page.item-table.now-rows": "There is nothing here yet"
+   "collection-page.item-table.now-rows": "There is nothing here yet",
+   "feed-page.items-table-title": "Title",
+   "feed-page.items-table-collection": "Collection",
+   "feed-page.items-table-user": "User",
+   "feed-page.items-table-timestamp": "Time of creation"
 }

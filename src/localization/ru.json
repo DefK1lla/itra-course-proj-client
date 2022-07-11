@@ -83,5 +83,9 @@
    "collection-page.item-table.likes": "Отметок нравится",
    "collection-page.item-table.date": "Дата создания",
    "collection-page.item-table.link": "Ссылка",
-   "collection-page.item-table.now-rows": "Здесь пока ничего нет"
+   "collection-page.item-table.now-rows": "Здесь пока ничего нет",
+   "feed-page.items-table-title": "Название",
+   "feed-page.items-table-collection": "Коллекция",
+   "feed-page.items-table-user": "Пользователь",
+   "feed-page.items-table-timestamp": "Время создания"
 }

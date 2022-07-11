@@ -24,8 +24,8 @@ const ItemsToolbar = React.memo(({ username, userId, collection, collectionId, f
 
    const handleDeleteClick = async (event) => {
       const selected = gridContext.current.state.selection;
-      await itemApi.deleteMany(selected);
-      collection.itemsCount--;
+      const { count } = await itemApi.deleteMany(selected);
+      collection.itemsCount = count;
       fetchItems();
    };
 
