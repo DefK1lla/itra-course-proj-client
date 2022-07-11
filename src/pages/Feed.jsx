@@ -6,6 +6,7 @@ import collectionApi from '../http/collectionAPI';
 import itemApi from '../http/itemAPI';
 import tagApi from '../http/tagAPI';
 
+import Loading from '../components/Loading';
 import TagCloud from '../components/TagCloud';
 import CollectionCard from '../components/CollectionCard';
 import FeedTable from '../components/FeedTable';
@@ -14,20 +15,29 @@ const Feed = () => {
    const [collections, setCollections] = React.useState([]);
    const [items, setItems] = React.useState([]);
    const [tags, setTags] = React.useState([]);
+   const [isCollectionsLoading, setIsCollectionsLoading] = React.useState(true);
+   const [isItemsLoading, setIsItemsLoading] = React.useState(true);
+   const [isTagsLoading, setIsTagsLoading] = React.useState(true);
 
    const fetchCollections = async () => {
+      setIsCollectionsLoading(true);
       const collections = await collectionApi.getLargest();
       setCollections(collections);
+      setIsCollectionsLoading(false);
    };
 
    const fetchItems = async () => {
+      setIsItemsLoading(true);
       const items = await itemApi.getLatest();
       setItems(items);
+      setIsItemsLoading(false);
    };
 
    const fetchTags = async () => {
+      setIsTagsLoading(true);
       const tags = await tagApi.getAll();
       setTags(tags.map(tag => tag.title));
+      setIsTagsLoading(false);
    };
  
    const fetchData = () => {
@@ -37,6 +47,8 @@ const Feed = () => {
    };
 
    React.useEffect(fetchData, []);
+
+   if (isCollectionsLoading || isItemsLoading || isTagsLoading) return <Loading />;
 
    return (
       <Container
