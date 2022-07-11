@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
 
@@ -24,6 +24,10 @@ const Registration = () => {
 
    const intl = useIntl();
    const theme = useTheme();
+   const navigate = useNavigate();
+   const location = useLocation();
+
+   const backPath = location.state?.backPath;
 
    const {
       register,
@@ -43,7 +47,10 @@ const Registration = () => {
 
    const onSubmit = (data) => {
       authApi.registration({ ...data })
-         .then(user => UserState.login(user))
+         .then(user => {
+            UserState.login(user);
+            navigate(backPath || '/');
+         })
          .catch(e => e.response.status === 400 ?
             setError(e.response.data.error.field, {
                type: 'custom',

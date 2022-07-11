@@ -179,7 +179,7 @@ const ItemEditor = () => {
                   )}
                </NativeSelect>
 
-               {fields.length !== 0 &&
+               {fields.length > 0 &&
                   <Fieldset 
                      fields={fields}
                      register={register}

@@ -12,13 +12,13 @@ const UserCard = ({ user }) => {
          }}
       >
          <Stack
-               spacing={1}
-               direction='row'
-               alignItems='center'
+            spacing={1}
+            direction='row'
+            alignItems='center'
             >
             <Avatar
               sx={{ 
-               bgcolor: deepOrange[500] 
+                  bgcolor: deepOrange[500] 
                }}
             >
               {user.username[0]}

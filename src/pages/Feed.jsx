@@ -59,13 +59,13 @@ const Feed = () => {
          <Stack
             spacing={3}
          >
-            {items.length !== 0 && 
+            {items.length > 0 && 
                <FeedTable 
                   items={items}
                />
             }
 
-            {collections.length !== 0 &&
+            {collections.length > 0 &&
                <Grid 
                   container
                   spacing={3}
@@ -96,7 +96,7 @@ const Feed = () => {
                </Grid>
             }
 
-            {tags.length !== 0 &&
+            {tags.length > 0 &&
                <Paper
                   sx={{
                      p: 2

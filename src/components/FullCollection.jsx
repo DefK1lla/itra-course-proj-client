@@ -19,7 +19,7 @@ import UserState from '../store/UserState';
 
 import collectionApi from '../http/collectionAPI';
 
-import CardMenu from '../components/CardMenu';
+import CardMenu from './CardMenu';
 
 const FullCollection = ({ collection, isLoading }) => {
    const theme = useTheme();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useForm } from 'react-hook-form';
 
@@ -21,9 +21,13 @@ import ErrorAlert from '../components/ErrorAlert';
 function Login() {
    const [alert, setAlert] = React.useState(false);
    const [errorText, setErrorText] = React.useState('');
-
+   
    const intl = useIntl();
    const theme = useTheme();
+   const navigate = useNavigate();
+   const location = useLocation();
+   
+   const backPath = location.state?.backPath;
 
    const {
       register,
@@ -43,7 +47,10 @@ function Login() {
 
    const onSubmit = (data) => {
       authApi.login({ ...data })
-         .then(user => UserState.login(user))
+         .then(user => {
+            UserState.login(user);
+            navigate(backPath || '/');
+         })
          .catch(e => {
             if (e.response.status === 404) {
                setError('password', {
@@ -63,7 +70,7 @@ function Login() {
                setErrorText('form.something-wrong');
             }
          }
-         );
+      );
    }
 
    return (

@@ -70,7 +70,7 @@ const User = () => {
             </Button>
          }
 
-         {collections.length 
+         {collections.length > 0
             ?  <Grid 
                   container
                   spacing={4}

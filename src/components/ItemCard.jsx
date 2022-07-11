@@ -20,7 +20,7 @@ import UserState from '../store/UserState';
 
 import itemApi from '../http/itemAPI';
 
-import CardMenu from '../components/CardMenu';
+import CardMenu from './CardMenu';
 
 const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTimestamp }) => {
    const theme = useTheme();

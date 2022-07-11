@@ -1,4 +1,5 @@
 {
+   "ID": "ID",
    "hello.world": "hello world!",
    "signin": "Войти",
    "signup": "Регистрация",
@@ -78,6 +79,9 @@
    "item-card.user": "Пользователь",
    "item-card.collection": "Коллекция",
    "item-card.likes-count": "Отметок нравится",
+   "item-page.auth-required": "Авторизируйтесь, чтобы оставить комментарий",
+   "item-page.comment-form.placeholder": "Введите текст",
+   "item-page.comment-form.submit-button": "Отправить",
    "collection-page.add-item": "Добавить айтем",
    "collection-page.item-table.title": "Название",
    "collection-page.item-table.likes": "Отметок нравится",
@@ -87,5 +91,7 @@
    "feed-page.items-table-title": "Название",
    "feed-page.items-table-collection": "Коллекция",
    "feed-page.items-table-user": "Пользователь",
-   "feed-page.items-table-timestamp": "Время создания"
+   "feed-page.items-table-timestamp": "Время создания",
+   "comments.title": "Комментарии",
+   "comments.no-comments": "Комментариев пока нет"
 }

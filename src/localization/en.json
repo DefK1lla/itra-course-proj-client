@@ -1,4 +1,5 @@
 {
+   "ID": "ID",
    "hello.world": "hello world!",
    "signin": "Sign In",
    "signup": "Sign Up",
@@ -78,6 +79,9 @@
    "item-card.user": "User",
    "item-card.collection": "Collection",
    "item-card.likes-count": "Likes",
+   "item-page.auth-required": "Log in to write a comment",
+   "item-page.comment-form.placeholder": "Enter text",
+   "item-page.comment-form.submit-button": "Submit",
    "collection-page.add-item": "Add item",
    "collection-page.item-table.title": "Title",
    "collection-page.item-table.likes": "Likes",
@@ -87,5 +91,7 @@
    "feed-page.items-table-title": "Title",
    "feed-page.items-table-collection": "Collection",
    "feed-page.items-table-user": "User",
-   "feed-page.items-table-timestamp": "Time of creation"
+   "feed-page.items-table-timestamp": "Time of creation",
+   "comments.title": "Comments",
+   "comments.no-comments": "No comments yet"
 }
