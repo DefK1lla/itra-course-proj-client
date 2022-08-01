@@ -52,7 +52,7 @@ const Item = () => {
    const createSubmitHandler = reset => {
       return async data => {
          await commentApi.create(id, data);
-         setPage(0);
+         setPage(1);
          fetchComments();
          reset();
       };

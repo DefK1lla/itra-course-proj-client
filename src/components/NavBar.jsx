@@ -40,10 +40,6 @@ const NavBar = observer(() => {
       }
    }]
       : UserState.isAuth === false ? [{
-         title: <FormattedMessage id='nav.home' />,
-         path: '/',
-         onClick: handleCloseNavMenu
-      }, {
          title: <FormattedMessage id='nav.signin' />,
          path: '/signin',
          onClick: handleCloseNavMenu
