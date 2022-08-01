@@ -61,9 +61,8 @@ const ItemEditor = () => {
       setCollections(collections);
 
       if (collectionId) {
-         setTimeout(() => setValue('collectionRef', collectionId), 0);
-         
-         fetchFields(collectionId);
+         await fetchFields(collectionId);
+         setValue('collectionRef', collectionId);
       }
 
       if (id) {
