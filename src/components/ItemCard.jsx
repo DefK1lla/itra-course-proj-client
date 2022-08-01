@@ -81,6 +81,7 @@ const ItemCard = ({ id, title, likesCount, isLiked, user, collection, createdTim
                   <CardMenu 
                      onDeleteClick={handleDeleteClick}
                      editLink={`/item/${id}/edit`}
+                     userId={user._id}
                   />
                }
             />

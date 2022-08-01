@@ -41,6 +41,10 @@ const CardMenu = ({ editLink, onDeleteClick, collectionId, userId }) => {
             <MenuItem
                component={Link}
                to={editLink}
+               state={{
+                  userId,
+                  collectionId
+               }}
                onClick={handleClose}
             >
                <FormattedMessage id='card-menu.edit' />

@@ -57,8 +57,14 @@ const ItemEditor = () => {
    });
 
    const fetchData = React.useCallback(async () => {
-      const collections = await collectionApi.getUserCollections(UserState.userData._id);
+      const collections = await collectionApi.getUserCollections(userId ?? UserState.userData._id);
       setCollections(collections);
+
+      if (collectionId) {
+         setTimeout(() => setValue('collectionRef', collectionId), 0);
+         
+         fetchFields(collectionId);
+      }
 
       if (id) {
          const item = await itemApi.getForEdit(id);
@@ -74,9 +80,9 @@ const ItemEditor = () => {
                };
             })
          );
-      }
+      } 
 
-   }, [setValue, id]);
+   }, [setValue, userId, id, collectionId]);
 
    const fetchFields = async (id) => {
       const fields = await collectionApi.getFields(id);
@@ -121,11 +127,6 @@ const ItemEditor = () => {
       setTags([]);
       setFields([]);
       fetchData();
-
-      if (collectionId) {
-         setValue('collectionRef', collectionId);
-         fetchFields(collectionId);
-      }
    }, [fetchData, reset, setValue, collectionId]);
 
    return (
