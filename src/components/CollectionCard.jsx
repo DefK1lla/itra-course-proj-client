@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -10,6 +10,7 @@ import {
    CardContent, 
    Typography,
    CardActions,
+   Link,
    useTheme  
 } from '@mui/material';
 
@@ -37,10 +38,10 @@ const CollectionCard = ({ collection, setCollections }) => {
             title={
                <Link
                   to={`/collection/${collection._id}`}
-                  style={{
+                  component={RouterLink}
+                  sx={{
                      wordBreak: 'break-word',
                      textDecoration: 'none',
-                     color: theme.palette.info.main,
                   }}
                >
                   {collection.title}
@@ -85,24 +86,20 @@ const CollectionCard = ({ collection, setCollections }) => {
             >
                <FormattedMessage id='collection-card.items-count' />: {collection.itemsCount}
             </Typography>
-         </CardContent>  
-         <CardActions>
             <Typography 
                variant="body2" 
                color="text.secondary"
             >
                <FormattedMessage id='collection-card.user' />: 
                <Link 
-                  style={{
-                     color: theme.palette.info.main,
-                     marginLeft: 4
-                  }}
+                  sx={{ ml: 1 }}
+                  component={RouterLink}
                   to={`/user/${collection.userRef._id}`}
                >
                   {collection.userRef.username}
                </Link>
             </Typography>
-         </CardActions>
+         </CardContent> 
       </Card>
    );
 };

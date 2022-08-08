@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { useIntl } from 'react-intl';
 
 import { InputBase, IconButton, Box } from '@mui/material';
@@ -7,6 +9,13 @@ import SearchIcon from '@mui/icons-material/Search';
 
 function SearchForm() {
    const intl = useIntl();
+   const navigate = useNavigate();
+   const inputRef = React.useRef();
+
+   const handleSearchClick = (e) => {
+      if (inputRef.current.value === '') return;
+      navigate(`/search?keyword=${inputRef.current.value}`);
+   };
 
    const Search = styled('div')(({ theme }) => ({
       display: 'flex',
@@ -36,9 +45,14 @@ function SearchForm() {
          <Search>
             <StyledInputBase
                placeholder={intl.formatMessage({ id: 'header.search' })}
+               inputRef={inputRef}
                inputProps={{ 'aria-label': 'search' }}
             />
-            <IconButton color='inherit' type='submit'>
+            <IconButton
+               color='inherit' 
+               type='submit'
+               onClick={handleSearchClick}
+            >
                <SearchIcon />
             </IconButton>
          </Search>

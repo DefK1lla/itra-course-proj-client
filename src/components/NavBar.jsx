@@ -57,7 +57,6 @@ const NavBar = observer(() => {
       });
    }
 
-
    return (
       <Box>
          <Box sx={{ 
@@ -150,4 +149,4 @@ const NavBar = observer(() => {
    )
 });
 
-export default NavBar;
+export default React.memo(NavBar);

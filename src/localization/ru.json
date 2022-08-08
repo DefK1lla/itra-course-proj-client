@@ -93,5 +93,7 @@
    "feed-page.items-table-user": "Пользователь",
    "feed-page.items-table-timestamp": "Время создания",
    "comments.title": "Комментарии",
-   "comments.no-comments": "Комментариев пока нет"
+   "comments.no-comments": "Комментариев пока нет",
+   "search-page.results-count": "Количество результатов",
+   "search-page.input-placeholder": "Введите текст"
 }

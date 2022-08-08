@@ -1,9 +1,9 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material'
-import SearchForm from '../SearchForm'
-import NavBar from '../NavBar'
-import Settings from '../Settings'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material';
+import SearchForm from '../SearchForm';
+import NavBar from '../NavBar';
+import Settings from '../Settings';
 
 const Header = () => {
    return (
@@ -29,6 +29,6 @@ const Header = () => {
          </AppBar>
       </Box>
    )
-}
+};
 
-export default Header
+export default React.memo(Header);

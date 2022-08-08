@@ -10,7 +10,7 @@ import itemApi from '../http/itemAPI';
 import commentApi from '../http/commentAPI';
 
 import Loading from '../components/Loading';
-import ItemCard from '../components/ItemCard';
+import FullItem from '../components/FullItem';
 import ItemInfo from '../components/ItemInfo';
 import TagCloud from '../components/TagCloud';
 import Comments from '../components/Comments';
@@ -81,7 +81,7 @@ const Item = () => {
          <Stack
             spacing={5}
          >
-            <ItemCard 
+            <FullItem 
                id={item._id}
                title={item.title}
                user={item.userRef}

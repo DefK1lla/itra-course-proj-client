@@ -93,5 +93,7 @@
    "feed-page.items-table-user": "User",
    "feed-page.items-table-timestamp": "Time of creation",
    "comments.title": "Comments",
-   "comments.no-comments": "No comments yet"
+   "comments.no-comments": "No comments yet",
+   "search-page.results-count": "Number of results",
+   "search-page.input-placeholder": "Enter text"
 }

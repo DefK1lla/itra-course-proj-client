@@ -13,13 +13,13 @@ import CollectionEditor from '../pages/CollectionEditor';
 import Collection from '../pages/Collection';
 import ItemEditor from '../pages/ItemEditor';
 import Item from '../pages/Item';
-
-
+import Search from '../pages/Search';
 
 const AppRouter = () => {
    return (
       <Routes>
          <Route exact path='/' element={<Feed />} />
+         <Route exact path='/search' element={<Search />} />
          <Route exact path='/user/:id' element={<User />} />
          <Route exact path='/collection/:id' element={<Collection />} />
          <Route exact path='/item/:id' element={<Item />} />
