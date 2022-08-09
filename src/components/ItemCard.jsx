@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { 
    Card, 
    CardHeader, 
-   CardMedia, 
    CardContent, 
    Typography,
    CardActions,
@@ -18,6 +17,7 @@ import UserState from '../store/UserState';
 import collectionApi from '../http/collectionAPI';
 
 import CardMenu from './CardMenu';
+import TagCloud from './TagCloud';
 
 const itemCard = ({ item, setItems }) => {
    const handleDeleteClick = (event) => {
@@ -90,7 +90,14 @@ const itemCard = ({ item, setItems }) => {
                   {item.collectionRef.title}
                </Link>
             </Typography>
-         </CardContent>   
+         </CardContent>  
+         <CardActions>
+            {item.tags?.length > 0 &&
+               <TagCloud 
+                  tags={item.tags}
+               />
+            }
+         </CardActions>
       </Card>
    );
 };

@@ -8,7 +8,8 @@ import {
    Stack, 
    Typography, 
    IconButton, 
-   TextField 
+   TextField,
+   Box 
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -39,7 +40,9 @@ const Search = () => {
    }, [page, params]);
 
    const handleSearchClick = (e) => {
+      e.preventDefault();
       if (inputRef.current.value === '') return;
+
       setParams({
          keyword: inputRef.current.value
       });
@@ -58,22 +61,27 @@ const Search = () => {
             pt: 3
          }}
       >
-         <TextField
-            sx={{ mb: 3 }}
-            fullWidth
-            variant='standard'
-            label={intl.formatMessage({ id: 'search-page.input-placeholder' })}
-            defaultValue={params.get('keyword')}
-            inputRef={inputRef}
-            InputProps={{ 
-               endAdornment: 
-                  <IconButton
-                     onClick={handleSearchClick}
-                  >
-                     <SearchIcon />
-                  </IconButton>
-            }}
-         />
+         <Box
+            component='form'
+         >
+            <TextField
+               sx={{ mb: 3 }}
+               fullWidth
+               variant='standard'
+               label={intl.formatMessage({ id: 'search-page.input-placeholder' })}
+               defaultValue={params.get('keyword')}
+               inputRef={inputRef}
+               InputProps={{ 
+                  endAdornment: 
+                     <IconButton
+                        type='submit'
+                        onClick={handleSearchClick}
+                     >
+                        <SearchIcon />
+                     </IconButton>
+               }}
+            />
+         </Box>
 
          <Typography
             variant='h5'

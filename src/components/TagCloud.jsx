@@ -1,3 +1,5 @@
+import { Link as RouterLink } from 'react-router-dom';
+
 import { Grid, Chip } from '@mui/material';
 
 const TagCloud = ({ tags }) => {
@@ -12,9 +14,11 @@ const TagCloud = ({ tags }) => {
                item
             >
                <Chip 
+                  sx={{ cursor: 'pointer' }}
+                  component={RouterLink}
+                  to={`/search?keyword=${tag}`}
                   label={`${tag}`}
                   variant='outlined'
-                  onClick={e => console.log(e)}
                />
             </Grid>
          )}
