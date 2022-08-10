@@ -22,9 +22,9 @@ const Filefield = ({ fileTypes, handleUpload, handleDelete, file }) => {
                         <Button
                            sx={{ mr: 1 }}
                            ariant='outlined'
-                           >
-                              <FormattedMessage id='collection-editor.file-uploaded' /> 
-                           </Button>
+                        >
+                           <FormattedMessage id='collection-editor.file-uploaded' /> 
+                        </Button>
    
                         <Typography variant='caption'>
                            <FormattedMessage id='collection-editor.new-file-upload' /> 

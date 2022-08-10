@@ -13,7 +13,8 @@ function SearchForm() {
    const inputRef = React.useRef();
 
    const handleSearchClick = (e) => {
-      if (inputRef.current.value === '') return;
+      e.preventDefault();
+      if (inputRef.current.value.trim() === '') return;
       navigate(`/search?keyword=${inputRef.current.value}`);
    };
 

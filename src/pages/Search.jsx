@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -22,9 +22,10 @@ import ItemCard from '../components/ItemCard';
 const Search = () => {
    const limit = 10;
 
-   const inputRef = React.useRef();
    const intl = useIntl();
+   const navigate = useNavigate();
    const [params, setParams] = useSearchParams();
+   const inputRef = React.useRef();
    const [results, setResults] = React.useState([]);
    const [count, setCount] = React.useState(0);
    const [page, setPage] = React.useState(1);
@@ -32,12 +33,18 @@ const Search = () => {
 
 
    const fetchData = React.useCallback(async () => {
-      setIsLoading(true);
-      const results = await searchApi.fullTextSearch(params.get('keyword'), page, limit);
-      setResults(results.result);
-      setCount(results.count);
-      setIsLoading(false);
-   }, [page, params]);
+      try {
+         const data = await searchApi.fullTextSearch(params.get('keyword'), page, limit);
+         setResults([...results, ...data.result]);
+         setPage(prevState => prevState + 1);
+         setCount(data.count);
+      } catch (e) {
+         console.warn(e);
+         navigate('/');
+      } finally {
+         setIsLoading(false);
+      }
+   }, [page, results, params, navigate]);
 
    const handleSearchClick = (e) => {
       e.preventDefault();
@@ -46,14 +53,43 @@ const Search = () => {
       setParams({
          keyword: inputRef.current.value
       });
+      setResults([]);
       setPage(1);
+      setIsLoading(true);
    };
 
-   React.useEffect(() => {
-      fetchData();
-   }, [page, fetchData]);
+   const handleScroll = React.useCallback((e) => {
+      if (!(count > results.length)) return;
 
-   if (isLoading) return <Loading />;
+      const scrollHeight = e.target.documentElement.scrollHeight,
+         scrollTop = e.target.documentElement.scrollTop,
+         viewportHeight = window.innerHeight;
+
+      if (scrollHeight - (scrollTop + viewportHeight) < 300) setIsLoading(true); 
+   }, [count, results.length]);
+
+   React.useEffect(() => {
+      document.addEventListener('scroll', handleScroll);
+
+      return () => document.removeEventListener('scroll', handleScroll);
+
+   }, [handleScroll]);
+
+   React.useEffect(() => {
+      const keyword = params.get('keyword');
+      if (inputRef.current.value === keyword) return;
+      
+      inputRef.current.value = keyword;
+      setResults([]);
+      setPage(1);
+      setIsLoading(true);
+   }, [params]);
+
+   React.useEffect(() => {
+      if (isLoading) {
+         fetchData();
+      }
+   }, [isLoading, fetchData]);
 
    return (
       <Container
@@ -91,29 +127,35 @@ const Search = () => {
             <FormattedMessage id='search-page.results-count' />: {count}
          </Typography>
 
-         <Stack
-            spacing={3}
-         >
-            {results.map(res => {
-               if (res.collectionRef) {
+         {(results.length !== 0) && 
+            <Stack
+               spacing={3}
+            >
+               {results.map(res => {
+                  if (res.collectionRef) {
+                     return (
+                        <ItemCard 
+                           key={res._id}
+                           item={res}
+                           setItems={setResults}
+                        />
+                     );
+                  }
+
                   return (
-                     <ItemCard 
+                     <CollectionCard
                         key={res._id}
-                        item={res}
-                        setItems={setResults}
+                        collection={res}
+                        setCollections={setResults}
                      />
                   );
-               }
+               })}
+            </Stack>
+         }
 
-               return (
-                  <CollectionCard
-                     key={res._id}
-                     collection={res}
-                     setCollections={setResults}
-                  />
-               );
-            })}
-         </Stack>
+         {isLoading &&
+            <Loading />
+         }
       </Container>
    );
 };

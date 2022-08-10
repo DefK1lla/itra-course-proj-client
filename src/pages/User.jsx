@@ -91,6 +91,7 @@ const User = () => {
                            key={col._id}
                         >
                            <CollectionCard
+                              menu={true}
                               collection={col}
                               setCollections={setCollections}
                            />

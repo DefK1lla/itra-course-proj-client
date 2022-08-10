@@ -9,9 +9,7 @@ import {
    CardMedia, 
    CardContent, 
    Typography,
-   CardActions,
-   Link,
-   useTheme  
+   Link, 
 } from '@mui/material';
 
 import UserState from '../store/UserState';
@@ -20,8 +18,8 @@ import collectionApi from '../http/collectionAPI';
 
 import CardMenu from './CardMenu';
 
-const CollectionCard = ({ collection, setCollections }) => {
-   const theme = useTheme();
+const CollectionCard = ({ collection, setCollections, menu }) => {
+   const isAccess = UserState.userData?._id === collection.userRef._id || UserState.userData?.role === 'ADMIN';
 
    const handleDeleteClick = (event) => {
       collectionApi.delete(collection._id);
@@ -49,7 +47,7 @@ const CollectionCard = ({ collection, setCollections }) => {
            }
            subheader={new Date(collection.timestamp).toLocaleDateString()}
            action={
-            (UserState.userData?._id === collection.userRef._id || UserState.userData?.role === 'ADMIN') &&
+            (menu && isAccess) &&
                <CardMenu 
                   sx={{
                      position: 'relative',

@@ -19,7 +19,9 @@ import collectionApi from '../http/collectionAPI';
 import CardMenu from './CardMenu';
 import TagCloud from './TagCloud';
 
-const itemCard = ({ item, setItems }) => {
+const itemCard = ({ item, setItems, menu }) => {
+   const isAccess = UserState.userData?._id === item.userRef._id || UserState.userData?.role === 'ADMIN';
+
    const handleDeleteClick = (event) => {
       collectionApi.delete(item._id);
       setItems(prevState => prevState.filter(elem => elem._id !== item._id));
@@ -46,7 +48,7 @@ const itemCard = ({ item, setItems }) => {
            }
            subheader={new Date(item.timestamp).toLocaleDateString()}
            action={
-            (UserState.userData?._id === item.userRef._id || UserState.userData?.role === 'ADMIN') &&
+            (menu && isAccess) &&
                <CardMenu 
                   sx={{
                      position: 'relative',
