@@ -46,7 +46,7 @@ const Search = () => {
       }
    }, [page, results, params, navigate]);
 
-   const handleSearchClick = (e) => {
+   const handleSearchClick = e => {
       e.preventDefault();
       if (inputRef.current.value === '') return;
 
@@ -58,7 +58,7 @@ const Search = () => {
       setIsLoading(true);
    };
 
-   const handleScroll = React.useCallback((e) => {
+   const handleScroll = React.useCallback(e => {
       if (!(count > results.length)) return;
 
       const scrollHeight = e.target.documentElement.scrollHeight,
@@ -72,7 +72,6 @@ const Search = () => {
       document.addEventListener('scroll', handleScroll);
 
       return () => document.removeEventListener('scroll', handleScroll);
-
    }, [handleScroll]);
 
    React.useEffect(() => {

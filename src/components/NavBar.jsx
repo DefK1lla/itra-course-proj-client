@@ -149,4 +149,4 @@ const NavBar = observer(() => {
    )
 });
 
-export default React.memo(NavBar);
+export default NavBar;

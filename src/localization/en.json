@@ -46,6 +46,7 @@
    "admin-toolbar.remove-admin": "Remove admin rights",
    "admin-toolbar.block": "Block",
    "admin-toolbar.unblock": "Unblock",
+   "admin-toolbar.search-placeholder": "Enter username",
    "toolbar.delete": "Delete",
    "toolbar.add" : "Add",
    "collection-editor.title-placeholder": "Enter the title...",

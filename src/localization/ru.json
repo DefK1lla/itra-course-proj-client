@@ -46,6 +46,7 @@
    "admin-toolbar.remove-admin": "Отобрать права админа",
    "admin-toolbar.block": "Заблокировать",
    "admin-toolbar.unblock": "Разблокировать",
+   "admin-toolbar.search-placeholder": "Введите имя",
    "toolbar.delete": "Удалить",
    "toolbar.add" : "Добавить",
    "collection-editor.title-placeholder": "Введите название...",

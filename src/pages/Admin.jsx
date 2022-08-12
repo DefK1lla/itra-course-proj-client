@@ -1,10 +1,13 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import { Container } from '@mui/material';
+import { Container, IconButton, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import userApi from '../http/userAPI';
+import searchApi from '../http/searchAPI';
+
 import AdminToolbar from '../components/AdminToolbar';
 
 const Admin = () => {
@@ -40,6 +43,8 @@ const Admin = () => {
       }
    ];
 
+   const inputRef = React.useRef();
+   const [isSearch, setIsSearch] = React.useState(false);
    const [users, setUsers] = React.useState([]);
    const [usersCount, setUsersCount] = React.useState(0);
    const [sortModel, setSortModel] = React.useState({ username: 'desc' });
@@ -59,17 +64,44 @@ const Admin = () => {
       setSortModel(model[0]);
    };
 
-   const fetchUsers = () => {
-      setUsers([]);
-      setIsLoading(true);
-      userApi.getAll(sortModel, page, rowsPerPage).then(data => {
-         setUsers(data.users);
-         setUsersCount(data.count);
-         setIsLoading(false);
-      });
+   const handleEnterPress = e => {
+      if (e.key === 'Enter') {
+         if (!isSearch && inputRef.current.value === '') return;
+
+         if (!isSearch || page !== 0) {
+            setIsSearch(true);
+            setPage(0);
+         } else {
+            fetchUsers();
+         }         
+      }
    };
 
-   React.useEffect(fetchUsers, [sortModel, page, rowsPerPage]);
+   const handleClearClick = e => {
+      inputRef.current.value = '';
+      setIsSearch(false);
+      setPage(0);
+   };
+
+   const fetchUsers = React.useCallback(async () => {
+      let data;
+
+      if (isSearch) {
+         data = await searchApi.userSearch(inputRef.current.value, sortModel, page, rowsPerPage);
+      } else {
+         setUsers([]);
+         setIsLoading(true);
+         data = await userApi.getAll(sortModel, page, rowsPerPage);
+      }
+
+      setUsers(data.users);
+      setUsersCount(data.count);
+      setIsLoading(false);
+   }, [isSearch, sortModel, page, rowsPerPage]);
+
+   React.useEffect(() => {
+      fetchUsers();
+   }, [fetchUsers]);
 
    return (
       <Container 
@@ -78,6 +110,22 @@ const Admin = () => {
             my: 3 
          }}
       >
+         <TextField
+               sx={{ mb: 3 }}
+               fullWidth
+               variant='standard'
+               label={intl.formatMessage({ id: 'admin-toolbar.search-placeholder' })}
+               inputRef={inputRef}
+               onKeyPress={handleEnterPress}
+               InputProps={{ 
+                  endAdornment: 
+                     <IconButton
+                        onClick={handleClearClick}
+                     >
+                        <ClearIcon />
+                     </IconButton>
+               }}
+            />
          <DataGrid
             components={{ Toolbar: AdminToolbar }}
             componentsProps={{ toolbar: { fetchUsers } }}
