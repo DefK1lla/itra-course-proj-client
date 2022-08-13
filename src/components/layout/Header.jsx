@@ -1,17 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, AppBar, Toolbar, Typography, Container } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Container, useTheme} from '@mui/material';
 import SearchForm from '../SearchForm';
 import NavBar from '../NavBar';
 import Settings from '../Settings';
 
 const Header = () => {
+   const theme = useTheme();
    return (
       <Box sx={{ flexGrow: 1 }}>
          <AppBar position='static'>
             <Container>
                <Toolbar>
-                  <Link to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
+                  <Link 
+                     to={'/'}
+                     style={{
+                        textDecoration: 'none',
+                        color: theme.palette.common.white
+                     }}
+                  >
                      <Typography
                         variant='h6'
                         noWrap

@@ -111,21 +111,21 @@ const Admin = () => {
          }}
       >
          <TextField
-               sx={{ mb: 3 }}
-               fullWidth
-               variant='standard'
-               label={intl.formatMessage({ id: 'admin-toolbar.search-placeholder' })}
-               inputRef={inputRef}
-               onKeyPress={handleEnterPress}
-               InputProps={{ 
-                  endAdornment: 
-                     <IconButton
-                        onClick={handleClearClick}
-                     >
-                        <ClearIcon />
-                     </IconButton>
-               }}
-            />
+            sx={{ mb: 3 }}
+            fullWidth
+            variant='standard'
+            label={intl.formatMessage({ id: 'admin-toolbar.search-placeholder' })}
+            inputRef={inputRef}
+            onKeyPress={handleEnterPress}
+            InputProps={{ 
+               endAdornment: 
+                  <IconButton
+                     onClick={handleClearClick}
+                  >
+                     <ClearIcon />
+                  </IconButton>
+            }}
+         />
          <DataGrid
             components={{ Toolbar: AdminToolbar }}
             componentsProps={{ toolbar: { fetchUsers } }}
