@@ -9,7 +9,10 @@ const Header = () => {
    const theme = useTheme();
    return (
       <Box sx={{ flexGrow: 1 }}>
-         <AppBar position='static'>
+         <AppBar 
+            component='header'
+            position='static'
+         >
             <Container>
                <Toolbar>
                   <Link 

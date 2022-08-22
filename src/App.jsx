@@ -10,6 +10,7 @@ import { ruRU as DataGridRu, enUS as DataGridEn } from '@mui/x-data-grid';
 import SettingsState from './store/SettingsState';
 import UserState from './store/UserState';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import AppRouter from './components/AppRouter';
 import Loading from './components/Loading';
 
@@ -49,6 +50,7 @@ const App = observer(() => {
             <BrowserRouter>
                <Header />
                {UserState.isAuth === null ? <Loading /> : <AppRouter />}
+               <Footer />
             </BrowserRouter>
          </IntlProvider>
       </ThemeProvider>
