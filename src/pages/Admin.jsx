@@ -106,7 +106,7 @@ const Admin = () => {
    return (
       <Container 
          sx={{ 
-            height: 675, 
+            height: 600, 
             my: 3 
          }}
       >

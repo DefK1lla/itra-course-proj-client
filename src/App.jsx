@@ -48,9 +48,23 @@ const App = observer(() => {
             defaultLocale='en'
          >
             <BrowserRouter>
-               <Header />
-               {UserState.isAuth === null ? <Loading /> : <AppRouter />}
-               <Footer />
+               <div
+                  style={{
+                     minHeight: '100vh',
+                     display: 'flex',
+                     flexDirection: 'column',
+                  }}
+               >
+                  <Header />
+                  <div
+                     style={{
+                        flexGrow: 1
+                     }}
+                  >
+                     {UserState.isAuth === null ? <Loading /> : <AppRouter />}
+                  </div>
+                  <Footer />
+               </div>
             </BrowserRouter>
          </IntlProvider>
       </ThemeProvider>

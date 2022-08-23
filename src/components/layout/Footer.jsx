@@ -41,7 +41,7 @@ const Footer = () => {
          component='footer'
          position='static'
          sx={{
-            mt: 2
+            mt: 10
          }}
       >
          <Container>
