@@ -66,6 +66,8 @@ const Footer = () => {
                <Stack
                   direction='row'
                   spacing={2}
+                  flexWrap='wrap'
+                  justifyContent='center'
                >
                   {links.map(link => 
                      <Button
